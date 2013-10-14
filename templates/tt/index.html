@@ -1,0 +1,17 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Eventos - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Catálogo:</h1>
+
+{% for object in object_list %}
+    <a href="{{ object.get_absolute_url }}"><span><img src="{{  MEDIA_URL }}{{ object.foto }}"/></span></a>
+    <h3><a href="{{ object.get_absolute_url }}">
+    {{ object.nome }}</a></h3>
+    <p>{{ object.descricao }}</p>
+    {% empty %}
+    <li>Nenhum evento cadastrado.</li>
+{% endfor %}
+{% endblock %}

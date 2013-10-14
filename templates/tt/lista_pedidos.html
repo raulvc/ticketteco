@@ -1,0 +1,38 @@
+{% extends "tt/base.html" %}
+
+{% block title %} - Meus Pedidos - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Meus Pedidos</h1>
+
+
+<table>
+    {% if pedidos %}
+    <tr>
+        <th> Número </th>
+        <th> Data </th>
+        <th> Preço </th>
+        <th> Envio </th>
+        <th> Status </th>
+    </tr>
+    {% endif %}
+
+    {% for ped in pedidos %}
+        <tr>
+            <td><a href="/pedidos/{{ ped.id }}">{{ ped.id }}</a></td>
+            <td>{{ ped.data_criado|date:"d/m/Y" }}</td>
+            <td>{{ ped.total }}</td>
+            <td>{{ ped.metodo_envio }}</td>
+            <td>{{ ped.get_status_display }}</td>
+        </tr>
+        {% empty %}
+        <p class="texto_grande">Você ainda não fez nenhum pedido.</p>
+    {% endfor %}
+</table>
+<br>
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<br><br>
+
+
+{% endblock %}

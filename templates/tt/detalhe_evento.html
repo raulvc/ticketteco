@@ -1,0 +1,35 @@
+{% extends "tt/base.html" %}
+
+{% block title %}{{ object }} - Eventos - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <h1>{{ object }}</h1>
+
+
+<span><img src="{{  MEDIA_URL }}{{ object.foto }}"/></span>
+
+{{ object.descricao|linebreaks }}
+
+<strong>Data: </strong>{{ object.data|date:"d/m/Y" }}
+<br>
+<strong>Local: </strong>{{ object.local }}
+
+<div class="preco">
+    {% with price=object.preco %}
+        <strong>Preço: </strong>{{ price }}
+    {% endwith %}
+</div>
+
+<br>
+<form method="post" action=".">
+{% csrf_token %}
+<table>
+{{ form }}
+</table>
+<br>
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<input type="submit" class="button" style="cursor:pointer;" value="Adicionar ao carrinho"/>
+</form>
+
+{% endblock %}

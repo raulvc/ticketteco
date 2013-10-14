@@ -1,0 +1,45 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Carrinho - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+{% if not 'carrinho' in request.session or request.session.carrinho.is_empty %}
+<h1>Carrinho vazio!</h1>
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+ <br><br>
+{% else %}
+<h1>Carrinho</h1>
+
+<form method="post" action=".">{% csrf_token %}
+
+<table>
+    <tr>
+        <th> Evento </th>
+        <th> Quantidade </th>
+        <th> Preço Unitário </th>
+        <th> Total </th>
+    </tr>
+
+    {% for item in request.session.carrinho.items %}
+        <tr>
+            <td>{{ item.evento.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>{{ item.preco }}</td>
+            <td>{{ item.subtotal }}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td class="td" colspan="2"><strong>Total:</strong> {{ request.session.carrinho.total }}</td>
+
+        <td class="td" colspan="2">
+            <a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+            <a href="/selecao_endereco" class="button">Prosseguir</a>
+        </td>
+    </tr>
+</table>
+</form>
+
+{% endif %}
+
+{% endblock %}

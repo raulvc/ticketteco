@@ -1,0 +1,85 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Checkout - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<form method="post" action=".">{% csrf_token %}
+
+<h1>Verifique se os dados estão corretos: </h1>
+
+
+<p class="texto_grande"><strong>Cliente:</strong></p>
+
+<table>
+    <tr>
+        <th> E-mail </th>
+        <td>{{ request.user.email }}</td>
+    </tr>
+    <tr>
+        <th> Nome Completo </th>
+        <td>{{ request.user.nome }}</td>
+    </tr>
+    <tr>
+        <th> CPF </th>
+        <td>{{ request.user.cpf }}</td>
+    </tr>
+    <tr>
+        <th> Telefone </th>
+        <td>{{ request.user.telefone }}</td>
+    </tr>
+
+</table>
+
+<p class="texto_grande"><strong>Local de entrega: </strong></p>
+<table>
+    <tr>
+        <th> Logradouro </th>
+        <td>{{ end.logradouro }}, {{ end.nro }}</td>
+    </tr>
+    <tr>
+        <th> Complemento </th>
+        <td>{{ end.complemento }}</td>
+    </tr>
+    <tr>
+        <th> Cidade </th>
+        <td>{{ end.cidade }}</td>
+    </tr>
+    <tr>
+        <th> Estado </th>
+        <td>{{ end.estado }}</td>
+    </tr>
+    <tr>
+        <th> CEP </th>
+        <td>{{ end.cep }}</td>
+    </tr>
+</table>
+
+<p class="texto_grande"><strong>Pedido:</strong></p>
+
+<table>
+    <tr>
+        <th> Evento </th>
+        <th> Quantidade </th>
+        <th> Preço Unitário </th>
+        <th> Total </th>
+    </tr>
+
+    {% for item in request.session.carrinho.items %}
+        <tr>
+            <td>{{ item.evento.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>{{ item.preco }}</td>
+            <td>{{ item.subtotal }}</td>
+        </tr>
+    {% endfor %}
+    <tr><td colspan="4"><strong>Total:</strong> {{ request.session.carrinho.total }}</td></tr>
+</table>
+
+<br>
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<input type="submit" style="cursor:pointer;" class="button" value="Confirmar">
+
+</form>
+
+{% endblock %}

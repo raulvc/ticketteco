@@ -1,0 +1,30 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Endereços - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Selecione um local de entrega</h1>
+
+<form method="post" action=".">{% csrf_token %}
+
+<ul>
+    {% for end in enderecos %}
+        <li>
+            <input type="radio" name="endereco" value="{{ end.pk }}" {% if end.padrao %}checked="True"{% endif %}>
+            <strong> {{ end.logradouro }}, {{ end.nro }}</strong> <br>
+            <strong>Complemento: </strong>{{ end.complemento }} <br>
+            <strong>Cidade: </strong>{{ end.cidade }} <br>
+            <strong>Estado: </strong>{{ end.estado }} <br>
+            <strong>CEP: </strong>{{ end.cep }} <br><br>
+        </li>
+    {% endfor %}
+</ul>
+<td class="td" colspan="2">
+    <a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+    <input type="submit" style="cursor:pointer;" class="button" value="Prosseguir">
+</td>
+
+</form>
+
+{% endblock %}

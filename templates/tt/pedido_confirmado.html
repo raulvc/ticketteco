@@ -1,0 +1,17 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Pedido Confirmado - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Pedido Confirmado com sucesso!</h1>
+
+<br>
+Para acompanhar seu pedido, clique <a href="/pedidos/{{ p_id }}">aqui</a>.
+<br>
+Um e-mail com as informações do pedido foi enviado para <strong>{{ request.user.email }}</strong>.
+
+<br><br>
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<br><br>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "tt/base.html" %}
+
+{% block title %}{{ object }} - Pedidos - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Número do Pedido: {{ pedido.id }}</h1>
+<strong>Data do Pedido:</strong> {{ pedido.data_criado|date:"D, d M Y" }}
+
+<br><br>
+
+<table>
+    <tr>
+        <th> Evento </th>
+        <th> Quantidade </th>
+        <th> Preço Unitário </th>
+        <th> Total </th>
+    </tr>
+
+    {% for item in pedido.items.all %}
+        <tr>
+            <td>{{ item.evento.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>{{ item.preco }}</td>
+            <td>{{ item.subtotal }}</td>
+        </tr>
+    {% endfor %}
+    <tr><td colspan="4"><strong>Total:</strong> {{ pedido.total }}</td></tr>
+
+</table>
+
+<p class="texto_grande"><strong>Endereço de entrega: </strong></p>
+<table>
+    <tr>
+        <th> Logradouro </th>
+        <td>{{ pedido.endereco_entrega.logradouro }}, {{ pedido.endereco_entrega.nro }}</td>
+    </tr>
+    <tr>
+        <th> Complemento </th>
+        <td>{{ pedido.endereco_entrega.complemento }}</td>
+    </tr>
+    <tr>
+        <th> Cidade </th>
+        <td>{{ pedido.endereco_entrega.cidade }}</td>
+    </tr>
+    <tr>
+        <th> Estado </th>
+        <td>{{ pedido.endereco_entrega.estado }}</td>
+    </tr>
+    <tr>
+        <th> CEP </th>
+        <td>{{ pedido.endereco_entrega.cep }}</td>
+    </tr>
+</table>
+
+<p class="texto_grande"><strong>Status: </strong> {{ pedido.get_status_display }}</p>
+
+<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<br><br>
+
+{% endblock %}

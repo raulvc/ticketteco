@@ -1,0 +1,155 @@
+<html>
+{% load url from future %}
+
+<head>
+<title>{% block title %}Ticket Teco{% endblock %}</title>
+<style type="text/css">
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+#navigation {
+    background: #444;
+    font-size: 16px;
+    padding: 0px 10px;
+    margin: 0 0 10px 0;
+}
+
+#navigation a {
+    color: #fff;
+    float: left;
+}
+
+#navigation a span {
+    display: block;
+    padding: 5px 10px;
+    height: 80px;
+    line-height: 80px
+}
+
+ul.messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.messages li {
+    background: #ffc;
+    border: 1px solid #cfcfcf;
+    padding: 5px 8px 6px 8px;
+    font-size: 12px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+div.pagination ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.pagination ul li {
+    float: left;
+}
+
+div.pagination ul li a {
+    display: block;
+    padding: 2px 3px;
+}
+
+form tr label {
+    font-weight: normal;
+}
+
+form tr.invalid label {
+    color: red;
+}
+
+form tr.required label {
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 3px 5px 2px 5px;
+    border: 1px solid #ccc;
+    vertical-align: top;
+    text-align: left;
+}
+
+.button {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background: #47A447;
+    color: #ffffff;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+.button_red {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background: #DE2F2F;
+    color: #ffffff;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+}
+
+.td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.texto_grande{
+    font-size: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="navigation">
+<a href="/"><img src="{{  MEDIA_URL }}img/logo.png"/></a>
+<a href="/"><span>Página Inicial</span></a>
+<a href="/carrinho/"><span>Carrinho</span></a>
+<a href="/pedidos/"><span>Meus Pedidos</span></a>
+<br style="clear:left" />
+</div>
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+<hr />
+{% if request.user.is_authenticated %}
+<a> {{ request.user.get_short_name }} </a>
+-
+<a href="{% url 'logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+-
+<a href="{% url 'carrinho' %}">Ir para o carrinho</a>
+<hr />
+
+</body>
+</html>
