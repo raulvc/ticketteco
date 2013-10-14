@@ -6,10 +6,10 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.shortcuts import redirect
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
 from tt.views import  *
 
+# Uncomment the next two lines to enable the admin:
+from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
