@@ -21,8 +21,8 @@
         <tr>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
-            <td>{{ item.preco }}</td>
-            <td>{{ item.subtotal }}</td>
+            <td>R$ {{ item.evento.preco }}</td>
+            <td>R$ {{ item.subtotal }}</td>
         </tr>
     {% endfor %}
     <tr><td colspan="4"><strong>Total:</strong> {{ pedido.total }}</td></tr>

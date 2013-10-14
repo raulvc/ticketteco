@@ -69,11 +69,11 @@
         <tr>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
-            <td>{{ item.preco }}</td>
-            <td>{{ item.subtotal }}</td>
+            <td>R$ {{ item.preco }}</td>
+            <td>R$ {{ item.subtotal }}</td>
         </tr>
     {% endfor %}
-    <tr><td colspan="4"><strong>Total:</strong> {{ request.session.carrinho.total }}</td></tr>
+    <tr><td colspan="4"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td></tr>
 </table>
 
 <br>

@@ -25,12 +25,12 @@
         <tr>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
-            <td>{{ item.preco }}</td>
-            <td>{{ item.subtotal }}</td>
+            <td>R$ {{ item.preco }}</td>
+            <td>R$ {{ item.subtotal }}</td>
         </tr>
     {% endfor %}
     <tr>
-        <td class="td" colspan="2"><strong>Total:</strong> {{ request.session.carrinho.total }}</td>
+        <td class="td" colspan="2"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
 
         <td class="td" colspan="2">
             <a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
