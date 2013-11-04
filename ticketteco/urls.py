@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.shortcuts import redirect
 
 from tt.views import  *
 
@@ -14,7 +13,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^$', lambda request: redirect('eventos')),
+    url(r'^$', Index.as_view(), name='index'),
 
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'tt/login.html'}, name='login'),
 
@@ -22,9 +21,9 @@ urlpatterns = patterns('',
 
     url(r'^carrinho/$', mostrar_carrinho, name='carrinho'),
 
-    url(r'^eventos/$', EventoViewList.as_view(), name='eventos'),
+    url(r'^catalogo/$', Catalogo.as_view(), name='catalogo'),
 
-    url(r'^eventos/(?P<evento_id>\d+)/$', mostrar_detalhe_evento, name='detalhe_evento'),
+    url(r'^catalogo/(?P<evento_id>\d+)/$', mostrar_detalhe_evento, name='detalhe_evento'),
 
     url(r'^pedidos/$', mostrar_lista_pedidos, name='meus_pedidos'),
 

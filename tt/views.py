@@ -15,10 +15,15 @@ from django.views.generic.list import ListView
 from tt.models import Evento, Usuario, Endereco, Pedido, Item
 
 
-class EventoViewList(ListView):
+class Index(ListView):
+    model = Evento
+    queryset = Evento.objects.filter(is_active=True).order_by('-data')[:3]
+    template_name = 'tt/index.html'
+
+class Catalogo(ListView):
     model = Evento
     queryset = Evento.objects.filter(is_active=True).order_by('-data')
-    template_name = 'tt/index.html'
+    template_name = 'tt/catalogo.html'
 
 class EventoDetalheForm(forms.Form):
     quantidade = forms.IntegerField(label='quantidade', initial=1, min_value=1, max_value=100)
@@ -126,7 +131,7 @@ def mostrar_cadastro(request):
                     request.session.modified = True
                     return redirect(proximo)
                 else:
-                    return redirect('eventos')
+                    return redirect('catalogo')
             except ValidationError, e:
                 if e:
                     [messages.error(request, msg) for msg in e.messages]

@@ -6,7 +6,7 @@
 
 {% if not 'carrinho' in request.session or request.session.carrinho.is_empty %}
 <h1>Carrinho vazio!</h1>
-<a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+<a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
  <br><br>
 {% else %}
 <h1>Carrinho</h1>
@@ -33,7 +33,7 @@
         <td class="td" colspan="2"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
 
         <td class="td" colspan="2">
-            <a href="{% url 'eventos' %}" class="button_red">Continuar comprando</a>
+            <a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
             <a href="/selecao_endereco" class="button">Prosseguir</a>
         </td>
     </tr>
