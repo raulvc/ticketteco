@@ -18,10 +18,6 @@ class Categoria(models.Model):
     def __unicode__(self):
         return self.nome
 
-class EventoManager(models.Manager):
-    def active(self):
-        return self.filter(is_active=True)
-
 class Evento(models.Model):
     is_active = models.BooleanField(default=True)
 
@@ -47,13 +43,13 @@ class Evento(models.Model):
     def get_absolute_url(self):
         return ('detalhe_evento', (), {'evento_id': self.pk})
 
-class Setor(models.Model):
-    evento = models.ForeignKey('Evento', related_name='setores')
-    nome = models.CharField(max_length=300)
-    qtd_lugares = models.IntegerField()
-    preco_extra = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    def __unicode__(self):
-       return u'%s' % self.name
+#class Setor(models.Model):
+#    evento = models.ForeignKey('Evento', related_name='setores')
+#    nome = models.CharField(max_length=300)
+#    qtd_lugares = models.IntegerField()
+#    preco_extra = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+#    def __unicode__(self):
+#       return u'%s' % self.name
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, username, email, data_nasc, password, nome, cpf, telefone):
@@ -163,7 +159,7 @@ class Pedido(models.Model):
         verbose_name_plural = 'pedidos'
 
     def __unicode__(self):
-        return self.pk
+        return str(self.pk)
 
     def recalcula_total(self, save=True):
         items = list(self.items.all())

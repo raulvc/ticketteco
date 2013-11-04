@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from tt.models import Evento, Usuario
+from tt.models import Evento, Usuario, Categoria, Pedido, Item
 from tt.views import UsuarioCadastroForm, UsuarioAlteracaoForm
 
 
@@ -13,7 +13,6 @@ class EventoAdmin(admin.ModelAdmin):
     list_filter = ('is_active',)
     prepopulated_fields = {'slug': ('nome',)}
     search_fields = ('nome', 'descricao')
-
 
 class UsuarioAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -42,6 +41,13 @@ class UsuarioAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+class PedidoAdmin(admin.ModelAdmin):
+    readonly_fields = ('data_criado', 'user', 'total',)
+
+    fields = ('status', 'data_criado', 'user', 'total',)
+
+admin.site.register(Pedido, PedidoAdmin)
+admin.site.register(Categoria)
 admin.site.register(Evento, EventoAdmin)
 admin.site.register(Usuario, UsuarioAdmin)
 
