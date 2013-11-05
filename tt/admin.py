@@ -3,8 +3,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from tt.forms import UsuarioAlteracaoForm, UsuarioCadastroForm
 from tt.models import Evento, Usuario, Categoria, Pedido, Item, Endereco
-from tt.views import UsuarioAlteracaoForm, UsuarioCadastroForm
 
 
 class EventoAdmin(admin.ModelAdmin):

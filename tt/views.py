@@ -2,17 +2,17 @@
 from decimal import Decimal
 import threading
 
-from django import forms
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 
-from tt.models import Evento, Usuario, Endereco, Pedido, Item
+from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroForm
+
+from tt.models import Evento, Endereco, Pedido, Item
 
 
 class Index(ListView):
@@ -24,10 +24,6 @@ class Catalogo(ListView):
     model = Evento
     queryset = Evento.objects.filter(is_active=True).order_by('-data')
     template_name = 'tt/catalogo.html'
-
-class EventoDetalheForm(forms.Form):
-    quantidade = forms.IntegerField(label='quantidade', initial=1, min_value=1, max_value=100)
-
 
 def mostrar_detalhe_evento(request, evento_id):
     evento = get_object_or_404(Evento.objects.filter(is_active=True, pk=evento_id))
@@ -63,53 +59,6 @@ def mostrar_detalhe_pedido(request, pedido_id):
 def mostrar_lista_pedidos(request):
     pedidos = Pedido.objects.filter(user=request.user)
     return render(request, 'tt/lista_pedidos.html', {'pedidos':pedidos})
-
-class UsuarioCadastroForm(forms.ModelForm):
-    password1 = forms.CharField(max_length=20, required=True, widget=forms.PasswordInput(), label="Senha")
-    password2 = forms.CharField(max_length=20, required=True, widget=forms.PasswordInput(), label="Repita a senha")
-
-    class Meta:
-        model = Usuario
-        fields = ['email', 'nome', 'data_nascimento', 'cpf', 'telefone', 'username']
-
-    def clean(self):
-        super(UsuarioCadastroForm, self).clean()
-        password1 = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password2')
-        # as duas senhas tem que ser iguais
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError('Senhas não correspondem.')
-        return self.cleaned_data
-
-    def save(self, commit=True):
-        novo_usuario = super(UsuarioCadastroForm, self).save(commit=False)
-        novo_usuario.set_password(self.cleaned_data['password1'])
-        if commit:
-            novo_usuario.save()
-        return novo_usuario
-
-class UsuarioAlteracaoForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    password hash display field.
-    """
-    password = ReadOnlyPasswordHashField()
-
-    class Meta:
-        model = Usuario
-        fields = ['email', 'nome', 'data_nascimento', 'cpf', 'telefone', 'username']
-
-    def clean_password(self):
-        # Regardless of what the user provides, return the initial value.
-        # This is done here, rather than on the field, because the
-        # field does not have access to the initial value
-        return self.initial["password"]
-
-class EnderecoCadastroForm(forms.ModelForm):
-    class Meta:
-        model = Endereco
-        fields = ['logradouro', 'nro', 'complemento', 'cidade', 'estado', 'cep']
-
 
 def mostrar_cadastro(request):
     if request.method == 'POST':
@@ -148,6 +97,7 @@ def mostrar_cadastro(request):
 def mostrar_checkout(request):
     # método aninhado para fazer a conversão dos itens do carrinho para objetos de item
     def carrinho_para_pedido(pedido):
+        # TODO: validação de evento esgotado
         cart_items = Carrinho(request.session).items
         for item in cart_items:
             i = Item(evento=item.evento, quantidade=item.quantidade)
@@ -159,8 +109,7 @@ def mostrar_checkout(request):
 
     if not Carrinho(request.session).items:
         return redirect('carrinho')
-
-    if 'endereco_entrega_id' not in request.session or not request.session['endereco_entrega_id']:
+    elif 'endereco_entrega_id' not in request.session or not request.session['endereco_entrega_id']:
         return redirect('selecao_endereco')
 
     else:
@@ -205,6 +154,7 @@ def mostrar_selecao_endereco(request):
 def mostrar_carrinho(request):
     return render(request, 'tt/carrinho.html')
 
+# reside na sessão, sem muita certeza de em que arquivo colocar
 class Carrinho(object):
     def __init__(self, session):
         self._items_dict = {}
