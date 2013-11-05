@@ -9,7 +9,7 @@
 
 <br><br>
 
-<table>
+<table class="table table-striped">
     <tr>
         <th> Evento </th>
         <th> Quantidade </th>
@@ -28,9 +28,11 @@
     <tr><td colspan="4"><strong>Total:</strong> {{ pedido.total }}</td></tr>
 
 </table>
-
+<br>
+<br>
 <p class="texto_grande"><strong>Endereço de entrega: </strong></p>
-<table>
+
+<table class="table table-striped">
     <tr>
         <th> Logradouro </th>
         <td>{{ pedido.endereco_entrega.logradouro }}, {{ pedido.endereco_entrega.nro }}</td>
@@ -55,7 +57,7 @@
 
 <p class="texto_grande"><strong>Status: </strong> {{ pedido.get_status_display }}</p>
 
-<a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
+<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
 <br><br>
 
 {% endblock %}

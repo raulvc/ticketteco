@@ -1,13 +1,13 @@
 {% extends "tt/base.html" %}
 
-{% block title %}{{ object }} - Eventos - {{ block.super }}{% endblock %}
+{% block title %}{{ object }} - Catálogo - {{ block.super }}{% endblock %}
 
 {% block content %}
 
     <h1>{{ object }}</h1>
 
 
-<span><img src="{{  MEDIA_URL }}{{ object.foto }}"/></span>
+<span><img  class="img-polaroid" src="{{  MEDIA_URL }}{{ object.foto }}"/></span>
 
 {{ object.descricao|linebreaks }}
 
@@ -24,12 +24,12 @@
 <br>
 <form method="post" action=".">
 {% csrf_token %}
-<table>
+<table >
 {{ form }}
 </table>
 <br>
-<a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
-<input type="submit" class="button" style="cursor:pointer;" value="Adicionar ao carrinho"/>
+<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+<input type="submit" class="btn btn-primary" style="cursor:pointer;" value="Adicionar ao carrinho"/>
 </form>
 
 {% endblock %}

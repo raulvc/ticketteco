@@ -7,7 +7,7 @@
 <h1>Meus Pedidos</h1>
 
 
-<table>
+<table class="table table-striped">
     {% if pedidos %}
     <tr>
         <th> Número </th>
@@ -31,7 +31,8 @@
     {% endfor %}
 </table>
 <br>
-<a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
+
+<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
 <br><br>
 
 

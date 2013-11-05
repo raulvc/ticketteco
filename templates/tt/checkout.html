@@ -11,7 +11,7 @@
 
 <p class="texto_grande"><strong>Cliente:</strong></p>
 
-<table>
+<table class="table table-striped">
     <tr>
         <th> E-mail </th>
         <td>{{ request.user.email }}</td>
@@ -32,7 +32,7 @@
 </table>
 
 <p class="texto_grande"><strong>Local de entrega: </strong></p>
-<table>
+<table class="table table-striped">
     <tr>
         <th> Logradouro </th>
         <td>{{ end.logradouro }}, {{ end.nro }}</td>
@@ -57,7 +57,7 @@
 
 <p class="texto_grande"><strong>Pedido:</strong></p>
 
-<table>
+<table class="table table-striped">
     <tr>
         <th> Evento </th>
         <th> Quantidade </th>
@@ -77,8 +77,8 @@
 </table>
 
 <br>
-<a href="{% url 'catalogo' %}" class="button_red">Continuar comprando</a>
-<input type="submit" style="cursor:pointer;" class="button" value="Confirmar">
+<a href="{% url 'catalogo' %}" class="btn">Continuar comprando</a>
+<input type="submit" style="cursor:pointer;" class="btn btn-success" value="Confirmar">
 
 </form>
 
