@@ -144,7 +144,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 LOGIN_URL = 'login'
 
-LOGIN_REDIRECT_URL = 'eventos'
+LOGIN_REDIRECT_URL = 'catalogo'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

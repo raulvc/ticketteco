@@ -19,7 +19,7 @@ class Categoria(models.Model):
         return self.nome
 
 class Evento(models.Model):
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name='Ativo?')
 
     categoria = models.ForeignKey(Categoria, related_name='eventos', blank=True, null=True)
 
@@ -82,17 +82,15 @@ class UsuarioManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser):
-    username = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(
-                        max_length=255
-                    )
+    username = models.CharField(max_length=30, unique=True, verbose_name='usuário')
+    email = models.EmailField(max_length=255, verbose_name='e-mail')
     data_nascimento = models.DateField(null=True, blank=True)
     nome = models.CharField(max_length=255, null=True, blank=True)
     cpf = models.CharField(max_length=11, null=True, blank=True)
     telefone = models.CharField(max_length=30, null=True, blank=True)
 
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True, verbose_name='ativo?')
+    is_admin = models.BooleanField(default=False, verbose_name='administrador?')
 
     objects = UsuarioManager()
 
@@ -159,12 +157,12 @@ class Pedido(models.Model):
         verbose_name_plural = 'pedidos'
 
     def __unicode__(self):
-        return str(self.pk)
+        return 'ID: %d' % self.pk
 
     def recalcula_total(self, save=True):
         items = list(self.items.all())
         for item in items:
-            self.total += item.subtotal()
+            self.total += item.subtotal
         if self.custo_envio:
             self.total += self.custo_envio
         if save:
@@ -181,8 +179,9 @@ class Item(models.Model):
         verbose_name_plural = 'itens do pedido'
 
     def __unicode__(self):
-        return '%d lugares para %s' % self.quantidade, self.evento.nome
+        return '%d lugar(es) para %s' % (self.quantidade, self.evento.nome)
 
+    @property
     def subtotal(self):
         return self.evento.preco * self.quantidade
 
