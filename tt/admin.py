@@ -6,13 +6,20 @@ from django.contrib.auth.models import Group
 from tt.forms import UsuarioAlteracaoForm, UsuarioCadastroForm
 from tt.models import Evento, Usuario, Categoria, Pedido, Item, Endereco
 
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'get_thumb',)
+    list_display_links = ('nome', 'get_thumb',)
+    list_filter = ('nome',)
+    search_fields = ('nome', 'descricao',)
+    exclude = ('thumb',)
 
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'is_active', 'estoque',)
-    list_display_links = ('nome',)
-    list_filter = ('is_active',)
+    list_display = ('get_thumb', 'nome', 'is_active', 'estoque',)
+    list_display_links = ('get_thumb', 'nome',)
+    list_filter = ('is_active', 'nome',)
     prepopulated_fields = {'slug': ('nome',)}
     search_fields = ('nome', 'descricao')
+    exclude = ('thumb',)
 
 class EnderecoInLine(admin.TabularInline):
     model = Endereco
@@ -110,7 +117,7 @@ class PedidoAdmin(admin.ModelAdmin):
         return super(PedidoAdmin, self).render_change_form(request, context,*args, **kwargs)
 
 admin.site.register(Pedido, PedidoAdmin)
-admin.site.register(Categoria)
+admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Evento, EventoAdmin)
 admin.site.register(Usuario, UsuarioAdmin)
 

@@ -4,17 +4,80 @@ from decimal import Decimal
 from django.db import models
 from django.utils.datetime_safe import datetime
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from ticketteco.settings import MEDIA_URL
 
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150, unique=True)
     descricao = models.TextField(verbose_name='descrição', blank=True)
+    foto = models.ImageField(upload_to='img/categorias', blank=True)
+    thumb = models.ImageField(upload_to='img/categorias/thumb', blank=True)
 
     class Meta:
         ordering = ['nome']
         verbose_name = 'categoria'
         verbose_name_plural = 'categorias'
+
+    # para ser usado na interface administrativa
+    def get_thumb(self):
+        return '<img src="%s%s"/>' % (MEDIA_URL, self.thumb)
+    get_thumb.allow_tags = True
+    get_thumb.short_description = ""
+
+    def create_thumbnail(self):
+        # original code for this method came from
+        # http://snipt.net/danfreak/generate-thumbnails-in-django-with-pil/
+
+        # If there is no image associated with this.
+        # do not create thumbnail
+        if not self.foto:
+            return
+
+        from PIL import Image
+        from cStringIO import StringIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        import os
+
+        # Set our max thumbnail size in a tuple (max width, max height)
+        THUMBNAIL_SIZE = (50, 50)
+
+        # Open original photo which we want to thumbnail using PIL's Image
+        image = Image.open(StringIO(self.foto.read()))
+        image_type = image.format.lower()
+
+        # We use our PIL Image object to create the thumbnail, which already
+        # has a thumbnail() convenience method that contrains proportions.
+        # Additionally, we use Image.ANTIALIAS to make the image look better.
+        # Without antialiasing the image pattern artifacts may result.
+        image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+
+        # Save the thumbnail
+        temp_handle = StringIO()
+        image.save(temp_handle, image_type)
+        temp_handle.seek(0)
+
+        # Save image to a SimpleUploadedFile which can be saved into
+        # ImageField
+        suf = SimpleUploadedFile(os.path.split(self.foto.name)[-1],
+                temp_handle.read(), content_type='image/%s' % (image_type))
+        # Save SimpleUploadedFile into image field
+        self.thumb.save(
+            'thumb_%s.%s' % (os.path.splitext(suf.name)[0], image_type),
+            suf,
+            save=False
+        )
+
+    def save(self, *args, **kwargs):
+        self.create_thumbnail()
+        force_update = False
+        # If the instance already has been saved, it has an id and we set
+        # force_update to True
+        if self.id:
+            force_update = True
+        # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
+        super(Categoria, self).save(force_update=force_update)
+
     def __unicode__(self):
         return self.nome
 
@@ -26,6 +89,7 @@ class Evento(models.Model):
     nome = models.CharField(max_length=255)
     descricao = models.TextField(verbose_name='descrição', blank=True)
     foto = models.ImageField(upload_to='img/eventos', blank=True)
+    thumb = models.ImageField(upload_to='img/eventos/thumb', blank=True)
     data = models.DateField()
     local = models.TextField()
     slug = models.SlugField(max_length=150, unique=True)
@@ -50,6 +114,65 @@ class Evento(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('detalhe_evento', (), {'evento_id': self.pk})
+
+    # TODO: acabei fazendo o copy paste aqui, dá pra melhorar isso no futuro
+    def get_thumb(self):
+        return '<img src="%s%s"/>' % (MEDIA_URL, self.thumb)
+    get_thumb.allow_tags = True
+    get_thumb.short_description = ""
+
+    def create_thumbnail(self):
+        # original code for this method came from
+        # http://snipt.net/danfreak/generate-thumbnails-in-django-with-pil/
+
+        # If there is no image associated with this.
+        # do not create thumbnail
+        if not self.foto:
+            return
+
+        from PIL import Image
+        from cStringIO import StringIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        import os
+
+        # Set our max thumbnail size in a tuple (max width, max height)
+        THUMBNAIL_SIZE = (50, 50)
+
+        # Open original photo which we want to thumbnail using PIL's Image
+        image = Image.open(StringIO(self.foto.read()))
+        image_type = image.format.lower()
+
+        # We use our PIL Image object to create the thumbnail, which already
+        # has a thumbnail() convenience method that contrains proportions.
+        # Additionally, we use Image.ANTIALIAS to make the image look better.
+        # Without antialiasing the image pattern artifacts may result.
+        image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+
+        # Save the thumbnail
+        temp_handle = StringIO()
+        image.save(temp_handle, image_type)
+        temp_handle.seek(0)
+
+        # Save image to a SimpleUploadedFile which can be saved into
+        # ImageField
+        suf = SimpleUploadedFile(os.path.split(self.foto.name)[-1],
+                temp_handle.read(), content_type='image/%s' % (image_type))
+        # Save SimpleUploadedFile into image field
+        self.thumb.save(
+            'thumb_%s.%s' % (os.path.splitext(suf.name)[0], image_type),
+            suf,
+            save=False
+        )
+
+    def save(self, *args, **kwargs):
+        self.create_thumbnail()
+        force_update = False
+        # If the instance already has been saved, it has an id and we set
+        # force_update to True
+        if self.id:
+            force_update = True
+        # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
+        super(Evento, self).save(force_update=force_update)
 
 #class Setor(models.Model):
 #    evento = models.ForeignKey('Evento', related_name='setores')
