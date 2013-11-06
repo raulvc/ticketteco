@@ -1,0 +1,20 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Erro - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Erro na operação</h1>
+
+<div class="alert">
+
+<br>
+Descrição do Erro:
+<br>
+<strong>{{ mensagem }}</strong>.
+</div>
+
+<br><br>
+<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+<br><br>
+{% endblock %}

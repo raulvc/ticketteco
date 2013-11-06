@@ -97,11 +97,23 @@ def mostrar_cadastro(request):
 def mostrar_checkout(request):
     # método aninhado para fazer a conversão dos itens do carrinho para objetos de item
     def carrinho_para_pedido(pedido):
-        # TODO: validação de evento esgotado
         cart_items = Carrinho(request.session).items
         for item in cart_items:
             i = Item(evento=item.evento, quantidade=item.quantidade)
             pedido.items.add(i)
+
+    def disponibilidade_estoque():
+        # TODO: poderia melhorar isso, talvez usando signals
+        cart_items = Carrinho(request.session).items
+        eventos_para_atualizar = []
+        for item in cart_items:
+            if item.quantidade > item.evento.estoque:
+                return (False, "Evento Esgotado")
+            elif item.quantidade <= item.evento.estoque:
+                eventos_para_atualizar.append((item.evento, item.quantidade))
+        for evento, qtd in eventos_para_atualizar:
+            evento.decrementar_estoque(qtd)
+        return (True, None)
 
     def envia_email(recipiente, mensagem):
         send_mail('Ticket Teco - Confirmação de Pedido', mensagem, 'raulvc@gmail.com',
@@ -117,6 +129,10 @@ def mostrar_checkout(request):
         if request.method == 'POST':
             # pedido foi confirmado
             try:
+                (ok, msg) = disponibilidade_estoque()
+                if not ok:
+                    return render(request, 'tt/erro.html', {'mensagem':msg})
+
                 pedido = Pedido.objects.create(user=request.user, endereco_entrega=endereco, status=10,
                                 metodo_envio='correio', total=0)
                 carrinho_para_pedido(pedido)

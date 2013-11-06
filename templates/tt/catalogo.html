@@ -1,0 +1,42 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Catálogo - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Catálogo:</h1>
+
+
+<hr>
+
+ <!-- Example row of columns -->
+     	 	
+			 <div class="row-fluid">
+		    
+            <ul class="thumbnails">
+        		
+        		  {% for object in object_list %}
+              <li class="span4">
+                <div class="thumbnail">
+                 <img src="{{  MEDIA_URL }}{{ object.foto }}" class="img-polaroid" alt="">    
+                  <div class="caption">
+                    <h4>{{ object.nome }}</h4>
+                    
+                    <p><a href="{{ object.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
+                  </div>
+                </div>
+              </li>
+               
+              {% empty %}
+                   <li>Nenhum evento cadastrado.</li>
+           {% endfor %}
+              
+            </ul>
+         	
+           
+          </div>
+          
+          
+          
+          <hr>
+{% endblock %}

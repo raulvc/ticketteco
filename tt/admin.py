@@ -8,7 +8,7 @@ from tt.models import Evento, Usuario, Categoria, Pedido, Item, Endereco
 
 
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'is_active', )
+    list_display = ('nome', 'is_active', 'estoque',)
     list_display_links = ('nome',)
     list_filter = ('is_active',)
     prepopulated_fields = {'slug': ('nome',)}

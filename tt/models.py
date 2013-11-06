@@ -31,10 +31,18 @@ class Evento(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
     preco = models.DecimalField(max_digits=18, decimal_places=2, verbose_name='preço unitário')
 
+    estoque = models.PositiveIntegerField()
+
     class Meta:
         ordering = ['nome']
         verbose_name = 'evento'
         verbose_name_plural = 'eventos'
+
+    def decrementar_estoque(self, qtd=1):
+        self.estoque -= qtd
+        if self.estoque == 0:
+            self.is_active = False
+        self.save()
 
     def __unicode__(self):
         return self.nome
