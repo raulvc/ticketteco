@@ -11,6 +11,7 @@
 
 <table class="table table-striped">
     <tr>
+        <th></th>
         <th> Evento </th>
         <th> Quantidade </th>
         <th> Preço Unitário </th>
@@ -19,13 +20,14 @@
 
     {% for item in pedido.items.all %}
         <tr>
+            <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
             <td>R$ {{ item.evento.preco }}</td>
             <td>R$ {{ item.subtotal }}</td>
         </tr>
     {% endfor %}
-    <tr><td colspan="4"><strong>Total:</strong> {{ pedido.total }}</td></tr>
+    <tr><td colspan="5"><strong>Total:</strong> {{ pedido.total }}</td></tr>
 
 </table>
 <br>

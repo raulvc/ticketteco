@@ -15,6 +15,7 @@
 
 <table class="table table-striped">
     <tr>
+        <th></th>
         <th> Evento </th>
         <th> Quantidade </th>
         <th> Preço Unitário </th>
@@ -23,6 +24,7 @@
 
     {% for item in request.session.carrinho.items %}
         <tr>
+            <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
             <td>R$ {{ item.preco }}</td>
@@ -30,7 +32,7 @@
         </tr>
     {% endfor %}
     <tr>
-        <td class="td" colspan="2"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
+        <td class="td" colspan="3"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
 
         <td class="td" colspan="2">
             <a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>

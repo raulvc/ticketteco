@@ -57,7 +57,7 @@ def mostrar_detalhe_pedido(request, pedido_id):
 
 @login_required()
 def mostrar_lista_pedidos(request):
-    pedidos = Pedido.objects.filter(user=request.user)
+    pedidos = Pedido.objects.filter(user=request.user).order_by('-id')
     return render(request, 'tt/lista_pedidos.html', {'pedidos':pedidos})
 
 def mostrar_cadastro(request):

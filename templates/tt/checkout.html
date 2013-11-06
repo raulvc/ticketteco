@@ -6,11 +6,10 @@
 
 <form method="post" action=".">{% csrf_token %}
 
-<h1>Verifique se os dados estão corretos: </h1>
+<h1>Verifique se os dados estão corretos </h1>
+<hr>
 
-
-<p class="texto_grande"><strong>Cliente:</strong></p>
-
+<h3><strong>Cliente:</strong></h3>
 <table class="table table-striped">
     <tr>
         <th> E-mail </th>
@@ -28,10 +27,11 @@
         <th> Telefone </th>
         <td>{{ request.user.telefone }}</td>
     </tr>
-
 </table>
 
-<p class="texto_grande"><strong>Local de entrega: </strong></p>
+<hr>
+
+<h3><strong>Local de Entrega:</strong></h3>
 <table class="table table-striped">
     <tr>
         <th> Logradouro </th>
@@ -55,10 +55,12 @@
     </tr>
 </table>
 
-<p class="texto_grande"><strong>Pedido:</strong></p>
+<hr>
 
+<h3><strong>Pedido:</strong></h3>
 <table class="table table-striped">
     <tr>
+        <th></th>
         <th> Evento </th>
         <th> Quantidade </th>
         <th> Preço Unitário </th>
@@ -67,13 +69,14 @@
 
     {% for item in request.session.carrinho.items %}
         <tr>
+            <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
             <td>{{ item.evento.nome }}</td>
             <td>{{ item.quantidade }}</td>
             <td>R$ {{ item.preco }}</td>
             <td>R$ {{ item.subtotal }}</td>
         </tr>
     {% endfor %}
-    <tr><td colspan="4"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td></tr>
+    <tr><td colspan="5"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td></tr>
 </table>
 
 <br>
