@@ -7,13 +7,16 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 
 from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroForm
 
-from tt.models import Evento, Endereco, Pedido, Item
+from tt.models import Evento, Endereco, Pedido, Item, Categoria
 
+
+# class-based views do django 1.5, não são fáceis de entender como o método tradicional mas ocupam menos linhas
 
 class Index(ListView):
     model = Evento
@@ -22,8 +25,28 @@ class Index(ListView):
 
 class Catalogo(ListView):
     model = Evento
-    queryset = Evento.objects.filter(is_active=True).order_by('-data')
     template_name = 'tt/catalogo.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Catalogo, self).get_context_data(**kwargs)
+        # 5 próximos
+        context['proximos'] = Evento.objects.filter(is_active=True).order_by('data')[:5]
+        # mais populares
+        context['ultimos'] = Evento.objects.filter(is_active=True).annotate(acabando=Count('estoque')).order_by('-acabando')[:5]
+        # só o topo da hierarquia
+        context['categorias'] = Categoria.objects.all().exclude(pai__isnull=False)
+        return context
+
+class CategoriaListView(ListView):
+    model = Categoria
+    template_name = 'tt/detalhe_categoria.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoriaListView, self).get_context_data(**kwargs)
+        if 'slug' in self.kwargs:
+            context['object'] = get_object_or_404(Categoria.objects.filter(slug=self.kwargs['slug']))
+            context['eventos'] = Evento.objects.filter(is_active=True, categoria=context['object']).order_by('data', 'nome')
+        return context
 
 def mostrar_detalhe_evento(request, evento_id):
     evento = get_object_or_404(Evento.objects.filter(is_active=True, pk=evento_id))

@@ -25,6 +25,8 @@ urlpatterns = patterns('',
 
     url(r'^catalogo/(?P<evento_id>\d+)/$', mostrar_detalhe_evento, name='detalhe_evento'),
 
+    url(r'^categoria/(?P<slug>[\w-]+)/$', CategoriaListView.as_view(), name = 'detalhe_categoria'),
+
     url(r'^pedidos/$', mostrar_lista_pedidos, name='meus_pedidos'),
 
     url(r'^pedidos/(?P<pedido_id>\d+)/$', mostrar_detalhe_pedido, name='detalhe_pedido'),

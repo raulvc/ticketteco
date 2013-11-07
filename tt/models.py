@@ -14,10 +14,18 @@ class Categoria(models.Model):
     foto = models.ImageField(upload_to='img/categorias', blank=True)
     thumb = models.ImageField(upload_to='img/categorias/thumb', blank=True)
 
+    # hierarquia
+    pai = models.ForeignKey('self', blank=True, null=True,
+                             related_name='filhos')
+
     class Meta:
         ordering = ['nome']
         verbose_name = 'categoria'
         verbose_name_plural = 'categorias'
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('detalhe_categoria', (), {'slug': self.slug})
 
     # para ser usado na interface administrativa
     def get_thumb(self):

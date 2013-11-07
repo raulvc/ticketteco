@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load url from future %}
-  <head>
+<head>
     <meta charset="utf-8">
     <title>{% block title %}TicketTeco{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,112 +12,112 @@
     <!-- Le styles -->
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
     <style>
-    	
-       
-       body {
-        padding-top: 20px;
-        padding-bottom: 60px;
-        
-        
- 
-			/* background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#bbb)) repeat-X; */
- 
-
-      }
-
-      /* Custom container */
-      .container {
-        margin: 0 auto;
-        max-width: 1000px;
-      }
-      .container > hr {
-        margin: 60px 0;
-      }
-
-      /* Main marketing message and sign up button */
-      .jumbotron {
-        margin: 80px 0;
-        text-align: center;
-      }
-      .jumbotron h1 {
-        font-size: 100px;
-        line-height: 1;
-      }
-      .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-      }
-      .jumbotron .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 60px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
 
 
-      /* Customize the navbar links to be fill the entire space of the .navbar */
-      .navbar .navbar-inner {
-        padding: 0;
-      }
-      .navbar .nav {
-        margin: 0;
-        display: table;
-        width: 100%;
-      }
-      .navbar .nav li {
-        display: table-cell;
-        width: 1%;
-        float: none;
-      }
-      .navbar .nav li a {
-        font-weight: bold;
-        text-align: center;
-        border-left: 1px solid rgba(255,255,255,.75);
-        border-right: 1px solid rgba(0,0,0,.1);
-      }
-      .navbar .nav li:first-child a {
-        border-left: 0;
-        border-radius: 3px 0 0 3px;
-      }
-      .navbar .nav li:last-child a {
-        border-right: 0;
-        border-radius: 0 3px 3px 0;
-      }
-      
-      .idusuario {
-          	 
-       padding-left: 880px;
-      
-      }
-      
-      
-      
-      .span4 {
-			   max-width: 300px;   
-      }
-      
-      .logintable { 
-  
-			padding-left:400px;      
-      }
-           
-      .form-search {
-      
-				padding-left:750px;      
-      }
-      
-      .footer {
-				background-color: #000;
-				height: 60px;
-				color: #aaa;      
-      }
-      
+        body {
+            padding-top: 20px;
+            padding-bottom: 60px;
+
+
+
+            /* background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#bbb)) repeat-X; */
+
+
+        }
+
+        /* Custom container */
+        .container {
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+        .container > hr {
+            margin: 15px 0;
+        }
+
+        /* Main marketing message and sign up button */
+        .jumbotron {
+            margin: 80px 0;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 100px;
+            line-height: 1;
+        }
+        .jumbotron .lead {
+            font-size: 24px;
+            line-height: 1.25;
+        }
+        .jumbotron .btn {
+            font-size: 21px;
+            padding: 14px 24px;
+        }
+
+        /* Supporting marketing content */
+        .marketing {
+            margin: 60px 0;
+        }
+        .marketing p + h4 {
+            margin-top: 28px;
+        }
+
+
+        /* Customize the navbar links to be fill the entire space of the .navbar */
+        .navbar .navbar-inner {
+            padding: 0;
+        }
+        .navbar .nav {
+            margin: 0;
+            display: table;
+            width: 100%;
+        }
+        .navbar .nav li {
+            display: table-cell;
+            width: 1%;
+            float: none;
+        }
+        .navbar .nav li a {
+            font-weight: bold;
+            text-align: center;
+            border-left: 1px solid rgba(255,255,255,.75);
+            border-right: 1px solid rgba(0,0,0,.1);
+        }
+        .navbar .nav li:first-child a {
+            border-left: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .navbar .nav li:last-child a {
+            border-right: 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .idusuario {
+
+            padding-left: 880px;
+
+        }
+
+
+
+        .span4 {
+            max-width: 300px;
+        }
+
+        .logintable {
+
+            padding-left:400px;
+        }
+
+        .form-search {
+
+            padding-left:750px;
+        }
+
+        .footer {
+            background-color: #000;
+            height: 60px;
+            color: #aaa;
+        }
+
     </style>
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -126,89 +126,89 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  
+
     {% block extrahead %}
     {% endblock %}
     <script type="text/javascript">
-    $(function(){
-    {% block jquery %}
-    {% endblock %}
-    });
+        $(function(){
+            {% block jquery %}
+            {% endblock %}
+        });
     </script>
-  </head>
+</head>
 
 <body>
-         <div class="idusuario">
-	          
-  			       {% if request.user.is_authenticated %}
-               <button class="btn  btn-success disabled" disabled="disabled" type="button"> Olá  {{ request.user.get_short_name }} </button>  
-                               
-                <a class="btn  btn-primary" type="button" href="{% url 'logout' %}">Logout</a>
-                {% else %}
-                
-               <a class="btn  btn-primary" type="button" href="{% url 'login' %}">Login</a>
-                {% endif %} 
-                
-				  <a class="btn btn-primary" type="button" href="{% url 'carrinho' %}">Ir para o carrinho</a>
- 
-           
-         </div>
-  <div class="container">
-  
- <div class="masthead">
+<div class="idusuario">
+
+    {% if request.user.is_authenticated %}
+        <button class="btn  btn-success disabled" disabled="disabled" type="button"> Olá  {{ request.user.get_short_name }} </button>
+
+        <a class="btn  btn-primary" type="button" href="{% url 'logout' %}">Logout</a>
+    {% else %}
+
+        <a class="btn  btn-primary" type="button" href="{% url 'login' %}">Login</a>
+    {% endif %}
+
+    <a class="btn btn-primary" type="button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+
+
+</div>
+<div class="container">
+
+    <div class="masthead">
         <a href="/"><img src="{{  MEDIA_URL }}img/logo.png"/></a>
-        <h3 class="muted">TICKETTECO</h3>
-        
-         <form class="form-search">
-             <div class="input-append">
-              <input type="text" class="span2 search-query">
-              <button type="submit" class="btn">Search</button>
-              </div>
-         </form>  
-              		 
-       <div class="navbar">
-          <div class="navbar-inner">
-            <div class="container">
-              <ul class="nav">
-                <li ><a href="/">Home</a></li>
-                <li ><a href="/catalogo">Catálogo</a></li>    
-                <li ><a href="/pedidos">Meus Pedidos</a></li>
-                
-                
-              </ul>
+        <h3 class="muted">TicketTeco</h3>
+
+        <form class="form-search">
+            <div class="input-append">
+                <input type="text" class="span2 search-query">
+                <button type="submit" class="btn">Search</button>
             </div>
-          </div>
+        </form>
+
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li ><a href="{% url 'index' %}">Home</a></li>
+                        <li ><a href="{% url 'catalogo' %}">Catálogo</a></li>
+                        <li ><a href="{% url 'carrinho' %}">Carrinho</a></li>
+
+
+                    </ul>
+                </div>
+            </div>
         </div><!-- /.navbar -->
-      </div>
-      
-  
-				
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-{% block content %}
-{% endblock %}
+    </div>
 
 
 
 
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-		 <div class="footer">
+    {% block content %}
+    {% endblock %}
+
+
+
+
+
+    <div class="footer">
         <p>&copy; TICKETTECO 2013</p>
-      </div>
-   </div> <!-- /container -->
-   
-       <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  <script src= "http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
-    <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+    </div>
+</div> <!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src= "http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src= "{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
+<script src= "{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+{% extends "tt/base.html" %}
+
+{% block title %}{{ object }} - Catálogo - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <span><img class="img-polaroid" src="{{ MEDIA_URL }}{{ object.thumb }}"/></span><h1>{{ object }}</h1>
+
+    {{ object.descricao|linebreaks }}
+
+    <hr>
+
+    <div class="row-fluid">
+
+        <ul class="thumbnails">
+
+            {% for cat in object.filhos.all %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ cat.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ cat.foto }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h3>{{ cat.nome }}</h3>
+                            <p>{{ cat.descricao }}</p>
+                            <p><a href="{{ cat.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+            {% for ev in eventos     %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ cat.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ ev.foto }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h3>{{ ev.nome }}</h3>
+                            <p>{{ ev.descricao }}</p>
+                            <p><a href="{{ ev.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+            {% if not object.filhos.all and not object.eventos.all %}
+                <li>Indisponível no momento.</li>
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+    <hr>
+
+{% endblock %}

@@ -4,39 +4,73 @@
 
 {% block content %}
 
-<h1>Catálogo:</h1>
+    <hr>
 
+    <h1>Próximos Eventos</h1>
 
-<hr>
+    <div class="row-fluid">
 
- <!-- Example row of columns -->
-     	 	
-			 <div class="row-fluid">
-		    
-            <ul class="thumbnails">
-        		
-        		  {% for object in object_list %}
-              <li class="span4">
-                <div class="thumbnail">
-                 <img src="{{  MEDIA_URL }}{{ object.foto }}" class="img-polaroid" alt="">    
-                  <div class="caption">
-                    <h4>{{ object.nome }}</h4>
-                    
-                    <p><a href="{{ object.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
-                  </div>
-                </div>
-              </li>
-               
-              {% empty %}
-                   <li>Nenhum evento cadastrado.</li>
-           {% endfor %}
-              
-            </ul>
-         	
-           
-          </div>
-          
-          
-          
-          <hr>
+        <ul class="thumbnails">
+
+            {% for p in proximos %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ p.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ p.thumb }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h4>{{ p.nome }}</h4>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <h1>Gênero</h1>
+
+    <div class="row-fluid">
+
+        <ul class="thumbnails">
+
+            {% for c in categorias %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ c.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ c.foto }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h4>{{ c.nome }}</h4>
+
+                            <p><a href="{{ c.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <h1>Últimos Ingressos!</h1>
+
+    <div class="row-fluid">
+
+        <ul class="thumbnails">
+
+            {% for u in ultimos %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ u.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ u.thumb }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h4>{{ u.nome }}</h4>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <hr>
+
 {% endblock %}
