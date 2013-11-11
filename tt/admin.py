@@ -14,12 +14,21 @@ class CategoriaAdmin(admin.ModelAdmin):
     exclude = ('thumb',)
 
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('get_thumb', 'nome', 'is_active', 'estoque',)
+    list_display = ('get_thumb', 'nome', 'is_active', 'estoque', 'estoque_inicial',)
     list_display_links = ('get_thumb', 'nome',)
     list_filter = ('is_active', 'nome',)
-    prepopulated_fields = {'slug': ('nome',)}
+    prepopulated_fields = {'slug': ('nome',),}
     search_fields = ('nome', 'descricao')
     exclude = ('thumb',)
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj:
+            # change page
+            self.readonly_fields = ['estoque_inicial']
+        else:
+            # add page
+            self.exclude = ('estoque', 'thumb',)
+        return super(EventoAdmin, self).get_form(request, obj, **kwargs)
 
 class EnderecoInLine(admin.TabularInline):
     model = Endereco

@@ -1,0 +1,96 @@
+{% extends "admin/base_site.html" %}
+{% load admin_static admin_list %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/changelists.css' %}" />
+{% endblock %}
+
+{% block extrahead %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    <script type="text/javascript" src="{% static 'js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/admin/DateTimeShortcuts.js' %}"></script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="/admin/">Início</a> &rsaquo;
+     <a href="{% url 'reports-list' %}">Relatórios</a> &rsaquo;
+     <a href="{{ report_request.get_report_url }}">{{report.verbose_name}}</a> &rsaquo;
+     Exibição do Relatório
+</div>
+{% endblock %}
+
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}{% endblock %}
+
+    {% block description %}
+    {% if report.description %}
+    <h3>Descrição</h3>
+    <div id="description">{{ report.description }}</div>
+    {% endif %}
+    {% endblock %}
+
+    {% block filters %}
+    {% if filter_form.fields %}
+    <h3>Filtros</h3>
+    <div id="filters">
+        <form action="{{ report_request.get_report_url }}" method="POST">{% csrf_token %}
+        <table>
+        {{ filter_form.as_table }}
+        </table>
+        <input type="submit" value="Gerar Relatório" />
+        </form>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+    {% block alternate-formats %}
+    <h3>Formatos Alternativos</h3>
+    <div>
+        {% for of in report.output_formats %}
+        {% ifequal of output_format %}
+        {{ of.verbose_name }} {% if not forloop.last %}|{% endif %}
+        {% else %}
+        <a href="{% url 'reports-request-view-format' report_request.token of.slug %}">{{ of.verbose_name }}</a> {% if not forloop.last %}|{% endif %}
+        {% endifequal %}
+        {% endfor %}
+    </div>
+    {% endblock %}
+
+<h3>Data</h3>
+ <table>
+    <thead>
+        <tr>
+            {% for l in report.labels %}
+            <th>{{ l }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in object_list %}
+    <tr>
+        {% for v in row %}
+        <td>{{ v }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for a in aggregates %}
+    <tr>
+        <td colspan="{{ report.labels|length|add:"-2" }}"></td>
+        <th>{{ a.0 }}</th><td>{{ a.1 }}</td>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if cl %}
+<div>{% pagination cl %}</div>
+{% endif %}
+
+</div>
+{% endblock %}

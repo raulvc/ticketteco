@@ -104,6 +104,7 @@ class Evento(models.Model):
     preco = models.DecimalField(max_digits=18, decimal_places=2, verbose_name='preço unitário')
 
     estoque = models.PositiveIntegerField()
+    estoque_inicial = models.PositiveIntegerField()
 
     class Meta:
         ordering = ['nome']
@@ -179,6 +180,9 @@ class Evento(models.Model):
         # force_update to True
         if self.id:
             force_update = True
+        else:
+            # estoque inicial = estoque
+            self.estoque = self.estoque_inicial
         # Force an UPDATE SQL query if we're editing the image to avoid integrity exception
         super(Evento, self).save(force_update=force_update)
 
@@ -221,7 +225,7 @@ class UsuarioManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser):
-    username = models.CharField(max_length=30, unique=True, verbose_name='usuário')
+    username = models.CharField(max_length=30, unique=True, verbose_name='usuario')
     email = models.EmailField(max_length=255, verbose_name='e-mail')
     data_nascimento = models.DateField(null=True, blank=True)
     nome = models.CharField(max_length=255, null=True, blank=True)

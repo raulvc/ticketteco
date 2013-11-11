@@ -15,6 +15,7 @@ from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroFor
 
 from tt.models import Evento, Endereco, Pedido, Item, Categoria
 
+# TODO: busca, alteracao cadastro, remover do carrinho
 
 # class-based views do django 1.5, não são fáceis de entender como o método tradicional mas ocupam menos linhas
 
@@ -32,7 +33,7 @@ class Catalogo(ListView):
         # 5 próximos
         context['proximos'] = Evento.objects.filter(is_active=True).order_by('data')[:5]
         # mais populares
-        context['ultimos'] = Evento.objects.filter(is_active=True).annotate(acabando=Count('estoque')).order_by('-acabando')[:5]
+        context['ultimos'] = Evento.objects.filter(is_active=True).order_by('estoque')[:5]
         # só o topo da hierarquia
         context['categorias'] = Categoria.objects.all().exclude(pai__isnull=False)
         return context

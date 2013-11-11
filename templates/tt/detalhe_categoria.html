@@ -4,9 +4,19 @@
 
 {% block content %}
 
-    <span><img class="img-polaroid" src="{{ MEDIA_URL }}{{ object.thumb }}"/></span><h1>{{ object }}</h1>
+    <span><img style="float:left" class="img-polaroid" src="{{ MEDIA_URL }}{{ object.thumb }}"/></span>
 
-    {{ object.descricao|linebreaks }}
+    <div class="offset1">
+        <h1>{{ object }}</h1>
+        {{ object.descricao|linebreaks }}
+    </div>
+
+    {% if object.pai %}
+        <a class="btn " type="button" href="{{ object.pai.get_absolute_url }}" >Voltar</a>
+    {% else %}
+        <a class="btn " type="button" href="{% url 'catalogo' %}" >Voltar</a>
+    {% endif %}
+
 
     <hr>
 
@@ -30,7 +40,7 @@
             {% for ev in eventos     %}
                 <li class="span4">
                     <div class="thumbnail">
-                        <a href="{{ cat.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ ev.foto }}" class="img-polaroid" alt=""></a>
+                        <a href="{{ ev.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ ev.foto }}" class="img-polaroid" alt=""></a>
                         <div class="caption">
                             <h3>{{ ev.nome }}</h3>
                             <p>{{ ev.descricao }}</p>

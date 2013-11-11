@@ -9,6 +9,9 @@ from tt.views import  *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+import reportengine
+
+reportengine.autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -37,6 +40,7 @@ urlpatterns = patterns('',
 
     url(r'^checkout/$', mostrar_checkout, name='checkout'),
 
+
     # Examples:
     # url(r'^$', 'ticketteco.views.home', name='home'),
     # url(r'^ticketteco/', include('ticketteco.foo.urls')),
@@ -45,6 +49,7 @@ urlpatterns = patterns('',
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    url(r'^relatorios/', include('reportengine.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
 )

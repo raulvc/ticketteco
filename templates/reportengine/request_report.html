@@ -1,0 +1,77 @@
+{% extends "admin/base_site.html" %}
+{% load admin_static admin_list %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/changelists.css' %}" />
+{% endblock %}
+
+{% block extrahead %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/admin/DateTimeShortcuts.js' %}"></script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="/admin/">Início</a> &rsaquo;
+     <a href="{% url 'reports-list' %}">Relatórios</a> &rsaquo;
+     {{report.verbose_name}}
+</div>
+{% endblock %}
+
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}{% endblock %}
+
+    {% block description %}
+    {% if report.description %}
+    <h3>Descrição</h3>
+    <div id="description">{{ report.description }}</div>
+    {% endif %}
+    {% endblock %}
+
+    {% block filters %}
+    <h3>Filtros</h3>
+    <div id="filters">
+        <form action="." method="POST">{% csrf_token %}
+        <table>
+        {{ filter_form.as_table }}
+        </table>
+        <input type="submit" value="Gerar Relatório" />
+        </form>
+    </div>
+    {% endblock %}
+    
+    {% block requested_reports %}
+    <h3>Relatórios Anteriores</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Tempo inicial</th>
+                <th>Tempo final</th>
+                <th>Parâmetros</th>
+                <th>Link</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for report_request in requested_reports %}
+        <tr>
+            <td>{{report_request.request_made}}</td>
+            <td>{{report_request.completion_timestamp}}</td>
+            <td>{{report_request.params}}</td>
+            <td><a href="{{report_request.get_absolute_url}}">Ver Relatório</a></td>
+            <td>{{report_request.task_status}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+</div>
+{% endblock %}

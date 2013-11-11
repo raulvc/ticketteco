@@ -18,6 +18,7 @@ class EventoDetalheForm(forms.Form):
 class UsuarioCadastroForm(forms.ModelForm):
     password1 = forms.CharField(max_length=20, required=True, widget=forms.PasswordInput(), label="Senha")
     password2 = forms.CharField(max_length=20, required=True, widget=forms.PasswordInput(), label="Repita a senha")
+    email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))
 
     class Meta:
         model = Usuario

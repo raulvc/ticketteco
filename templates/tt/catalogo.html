@@ -9,11 +9,10 @@
     <h1>Próximos Eventos</h1>
 
     <div class="row-fluid">
-
         <ul class="thumbnails">
 
             {% for p in proximos %}
-                <li class="span4">
+                <li class="span2">
                     <div class="thumbnail">
                         <a href="{{ p.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ p.thumb }}" class="img-polaroid" alt=""></a>
                         <div class="caption">
@@ -24,7 +23,6 @@
             {% endfor %}
 
         </ul>
-
     </div>
 
     <h1>Gênero</h1>
@@ -57,7 +55,7 @@
         <ul class="thumbnails">
 
             {% for u in ultimos %}
-                <li class="span4">
+                <li class="span2">
                     <div class="thumbnail">
                         <a href="{{ u.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ u.thumb }}" class="img-polaroid" alt=""></a>
                         <div class="caption">

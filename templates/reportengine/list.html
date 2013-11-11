@@ -1,0 +1,45 @@
+{% extends "admin/base_site.html" %}
+{% load admin_static admin_list %}
+
+{% block extrastyle %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/changelists.css" %}" />
+{% endblock %}
+
+
+{% block bodyclass %}change-list{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="/admin/">Início</a> &rsaquo;
+     Relatórios
+
+</div>
+{% endblock %}
+
+
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}{% endblock %}
+
+    <div id="changelist">
+
+		<H2>Reports</H2>
+
+    <div>
+        <a href="{% url 'reports-calendar-current' %}">Calendário</a>
+    </div>
+
+      <div id="changelist">
+            {% regroup reports|dictsort:"namespace" by namespace as report_list %}
+            {% for namespace in report_list %}
+                <h3>{{ namespace.grouper|title }}</h3>
+                {% for report in namespace.list|dictsort:"verbose_name" %}
+                    <a href="{% url 'reports-view' report.namespace report.slug %}">{{ report.verbose_name }}</a><br />
+                {% endfor %}
+            {% endfor %}
+	  </div>
+    </div>
+  </div>
+{% endblock %}
