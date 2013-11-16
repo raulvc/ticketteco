@@ -4,48 +4,66 @@
 
 {% block content %}
 
-{% if not 'carrinho' in request.session or request.session.carrinho.is_empty %}
-<h1>Carrinho vazio!</h1>
-<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
- <br><br>
-{% else %}
-<h1>Carrinho</h1>
+    {% if not 'carrinho' in request.session or request.session.carrinho.is_empty %}
+        <h1>Carrinho vazio!</h1>
+        <a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+        <br><br>
+    {% else %}
+        <h1>Carrinho</h1>
 
-<form method="post" action=".">{% csrf_token %}
+        <form method="post" action=".">{% csrf_token %}
 
-<table class="table table-striped">
-    <tr>
-        <th></th>
-        <th> Evento </th>
-        <th> Quantidade </th>
-        <th> Preço Unitário </th>
-        <th> Total </th>
-    </tr>
+            <table class="table table-striped">
+                <tr>
+                    <th></th>
+                    <th> Evento </th>
+                    <th> Quantidade </th>
+                    <th> Preço Unitário </th>
+                    <th> Total </th>
+                </tr>
 
-    {% for item in request.session.carrinho.items %}
-        <tr>
-            <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
-            <td>{{ item.evento.nome }}</td>
-            <td>
-                {{ item.quantidade }}
-                <a href="#" class="btn btn-small btn-success"><i class="icon-white icon-plus"></i></a>
-                <a href="#" class="btn btn-small btn-danger"><i class="icon-white icon-minus"></i></a>
-            </td>
-            <td>R$ {{ item.preco }}</td>
-            <td>R$ {{ item.subtotal }}</td>
-        </tr>
-    {% endfor %}
-    <tr>
-        <td class="td" colspan="3"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
+                {% for item in request.session.carrinho.items %}
+                    <tr>
+                        <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
+                        <td>{{ item.evento.nome }}</td>
+                        <td>
+                            <form method="post" action=".">{% csrf_token %}
+                                {{ item.quantidade }}
+                                <input type="hidden" name="evento_id" value={{ item.evento.id }}>
+                                <input type="hidden" name="qtd" value={{ item.quantidade }}>
+                                <button type="submit" class="btn btn-small btn-success" name="inc">
+                                    <i class="icon-white icon-plus"></i>
+                                </button>
+                                <button type="submit" class="btn btn-small btn-danger" name="dec">
+                                    <i class="icon-white icon-minus"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>R$ {{ item.preco }}</td>
+                        <td>R$ {{ item.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="td" colspan="3"></td>
+                    <td class="td" colspan="1">
+                        <form method="post" action=".">{% csrf_token %}
+                            <button type="submit" class="btn btn-warning" name="clear">
+                                Limpar
+                                <i class="icon-white icon-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td class="td" colspan="1"><strong>Total:</strong> R$ {{ request.session.carrinho.total }}</td>
+                </tr>
+                <tr>
+                    <td class="td" colspan="5">
+                        <a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+                        <a class ="btn btn-primary "href="/selecao_endereco" class="button">Prosseguir</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
 
-        <td class="td" colspan="2">
-            <a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
-            <a class ="btn btn-primary "href="/selecao_endereco" class="button">Prosseguir</a>
-        </td>
-    </tr>
-</table>
-</form>
-
-{% endif %}
+    {% endif %}
 
 {% endblock %}

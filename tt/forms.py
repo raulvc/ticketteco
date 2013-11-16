@@ -10,7 +10,6 @@ class EventoDetalheForm(forms.Form):
     def clean(self):
         super(EventoDetalheForm, self).clean()
         qtd = self.cleaned_data.get('quantidade')
-        # as duas senhas tem que ser iguais
         if qtd > 5:
             raise forms.ValidationError('Limite de 5 tickets por usuário.')
         return self.cleaned_data

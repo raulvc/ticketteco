@@ -64,6 +64,9 @@ def mostrar_detalhe_evento(request, evento_id):
                 if e.code == 'order_sealed':
                     [messages.error(request, msg) for msg in e.messages]
 
+            except ValueError:
+                messages.error(request, "Número máximo de tickets atingido")
+
             return redirect('carrinho')
     else:
         form = EventoDetalheForm()
@@ -211,6 +214,21 @@ def mostrar_selecao_endereco(request):
     return render(request, 'tt/selecao_endereco.html', {'enderecos':enderecos,})
 
 def mostrar_carrinho(request):
+    if request.method == 'POST':
+        carrinho = Carrinho(request.session)
+        if 'clear' in request.POST:
+            carrinho.clear()
+        else:
+            evento = get_object_or_404(Evento.objects.filter(id=request.POST['evento_id']))
+            qtd = int(request.POST['qtd'])
+            try:
+                if 'inc' in request.POST:
+                    carrinho.set_quantity(evento, qtd+1)
+                else:
+                    carrinho.set_quantity(evento, qtd-1)
+            except ValueError:
+                messages.error(request, "Número máximo de tickets atingido")
+
     return render(request, 'tt/carrinho.html')
 
 # reside na sessão, sem muita certeza de em que arquivo colocar
@@ -229,7 +247,7 @@ class Carrinho(object):
         """
         return evento in self.eventos
 
-    def add(self, evento, setor=None, quantidade=1, preco=None):
+    def add(self, evento, quantidade=1, preco=None):
         """
         Adds or creates products in cart. For an existing product,
         the quantity is increased and the price is ignored.
@@ -238,11 +256,13 @@ class Carrinho(object):
         if quantidade < 1:
             raise ValueError('Quantity must be at least 1 when adding to cart')
         if evento in self.eventos:
-            self._items_dict[evento.pk].quantidade += quantidade
+            # já existe no carrinho, apenas atualizar quantidade
+            qtd = self.get_quantity(evento)
+            self.set_quantity(evento, qtd + quantidade)
         else:
             if preco == None:
                 raise ValueError('Missing price when adding to cart')
-            self._items_dict[evento.pk] = CarrinhoItem(evento, setor, quantidade, preco)
+            self._items_dict[evento.pk] = CarrinhoItem(evento, quantidade, preco)
         self.session.modified = True
 
     def remove(self, evento):
@@ -257,16 +277,22 @@ class Carrinho(object):
         self._items_dict = {}
         self.session.modified = True
 
+    def get_quantity(self, evento):
+        if evento in self.eventos:
+            return self._items_dict[evento.pk].quantidade
+        else:
+            return None
+
     def set_quantity(self, evento, quantidade):
         if evento not in self.eventos:
             return
-        quantidade = int(quantidade)
-        if quantidade < 0:
-            raise ValueError('Quantity must be positive when updating cart')
-        self._items_dict[evento.pk].quantidade = quantidade
-        if self._items_dict[evento.pk].quantidade < 1:
-            del self._items_dict[evento.pk]
-        self.session.modified = True
+        elif quantidade < 0 or quantidade > 5:
+            raise ValueError
+        else:
+            self._items_dict[evento.pk].quantidade = quantidade
+            if self._items_dict[evento.pk].quantidade < 1:
+                del self._items_dict[evento.pk]
+            self.session.modified = True
 
     def is_empty(self):
         return len(self._items_dict) <= 0
@@ -293,9 +319,8 @@ class Carrinho(object):
         return sum([item.subtotal for item in self.items])
 
 class CarrinhoItem(object):
-    def __init__(self, evento, setor=None, quantidade=1, preco=None):
+    def __init__(self, evento, quantidade=1, preco=None):
         self.evento = evento
-        self.setor = setor
         self.quantidade = int(quantidade)
         self.preco = Decimal(str(preco))
 
