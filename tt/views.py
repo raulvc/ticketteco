@@ -127,7 +127,6 @@ def mostrar_checkout(request):
             pedido.items.add(i)
 
     def disponibilidade_estoque():
-        # TODO: poderia melhorar isso, talvez usando signals
         cart_items = Carrinho(request.session).items
         eventos_para_atualizar = []
         for item in cart_items:

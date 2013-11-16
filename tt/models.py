@@ -8,6 +8,8 @@ from ticketteco.settings import MEDIA_URL
 
 
 class Categoria(models.Model):
+    is_active = models.BooleanField(default=True, verbose_name='Ativo?')
+
     nome = models.CharField(max_length=100)
     slug = models.SlugField(max_length=150, unique=True)
     descricao = models.TextField(verbose_name='descrição', blank=True)
@@ -124,7 +126,6 @@ class Evento(models.Model):
     def get_absolute_url(self):
         return ('detalhe_evento', (), {'evento_id': self.pk})
 
-    # TODO: acabei fazendo o copy paste aqui, dá pra melhorar isso no futuro
     def get_thumb(self):
         return '<img src="%s%s"/>' % (MEDIA_URL, self.thumb)
     get_thumb.allow_tags = True
