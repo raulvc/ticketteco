@@ -1,0 +1,16 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Operação bem sucedida! - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Sucesso!</h1>
+
+<div class="alert-success">
+<strong>{{ mensagem }}</strong>.
+</div>
+
+<br><br>
+<a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+<br><br>
+{% endblock %}

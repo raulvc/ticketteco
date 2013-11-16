@@ -142,14 +142,15 @@
 
     {% if request.user.is_authenticated %}
         <button class="btn  btn-success disabled" disabled="disabled" type="button"> Olá  {{ request.user.get_short_name }} </button>
-
-        <a class="btn  btn-primary" type="button" href="{% url 'logout' %}">Logout</a>
+        <a class="btn  btn-primary" type="button" href="{% url 'alteracao' %}">Alterar Cadastro</a>
+        <a class="btn btn-primary" type="button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+        <a class="btn  btn-inverse" type="button" href="{% url 'logout' %}">Logout</a>
     {% else %}
-
         <a class="btn  btn-primary" type="button" href="{% url 'login' %}">Login</a>
+        <a class="btn btn-primary" type="button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
     {% endif %}
 
-    <a class="btn btn-primary" type="button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
+
 
 
 </div>

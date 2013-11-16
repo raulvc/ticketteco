@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from tt.forms import UsuarioAlteracaoForm, UsuarioCadastroForm
+from tt.forms import UsuarioAdminAlteracaoForm, UsuarioCadastroForm
 from tt.models import Evento, Usuario, Categoria, Pedido, Item, Endereco
 
 class CategoriaAdmin(admin.ModelAdmin):
@@ -39,7 +39,7 @@ class EnderecoInLine(admin.TabularInline):
 
 class UsuarioAdmin(UserAdmin):
     # The forms to add and change user instances
-    form = UsuarioAlteracaoForm
+    form = UsuarioAdminAlteracaoForm
     add_form = UsuarioCadastroForm
 
     def get_form(self, request, obj=None, **kwargs):
@@ -49,6 +49,7 @@ class UsuarioAdmin(UserAdmin):
             self.inlines = (EnderecoInLine,)
         else:
             # add page
+            self.readonly_fields = []
             self.inlines = ()
         return super(UsuarioAdmin, self).get_form(request, obj, **kwargs)
 

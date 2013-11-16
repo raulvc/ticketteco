@@ -36,6 +36,8 @@ urlpatterns = patterns('',
 
     url(r'^cadastro/$', mostrar_cadastro, name='cadastro'),
 
+    url(r'^alteracao/$', mostrar_alteracao, name='alteracao'),
+
     url(r'^selecao_endereco/$', mostrar_selecao_endereco, name='selecao_endereco'),
 
     url(r'^checkout/$', mostrar_checkout, name='checkout'),

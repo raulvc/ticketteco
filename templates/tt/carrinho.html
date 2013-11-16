@@ -26,7 +26,11 @@
         <tr>
             <td><img src="{{ MEDIA_URL }}{{ item.evento.thumb }}"/></td>
             <td>{{ item.evento.nome }}</td>
-            <td>{{ item.quantidade }}</td>
+            <td>
+                {{ item.quantidade }}
+                <a href="#" class="btn btn-small btn-success"><i class="icon-white icon-plus"></i></a>
+                <a href="#" class="btn btn-small btn-danger"><i class="icon-white icon-minus"></i></a>
+            </td>
             <td>R$ {{ item.preco }}</td>
             <td>R$ {{ item.subtotal }}</td>
         </tr>

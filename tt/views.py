@@ -11,14 +11,13 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 
-from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroForm
+from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroForm, UsuarioAlteracaoForm
 
 from tt.models import Evento, Endereco, Pedido, Item, Categoria
 
 # TODO: busca, alteracao cadastro, remover do carrinho
 
 # class-based views do django 1.5, não são fáceis de entender como o método tradicional mas ocupam menos linhas
-
 class Index(ListView):
     model = Evento
     queryset = Evento.objects.filter(is_active=True).order_by('-data')[:3]
@@ -116,6 +115,27 @@ def mostrar_cadastro(request):
             proximo = request.GET['next']
             request.session['next'] = proximo
     return render(request, "tt/cadastro_usuario.html", {'form':form, 'form_end':form_end,})
+
+@login_required
+def mostrar_alteracao(request):
+    if request.method == 'POST':
+
+        form = UsuarioAlteracaoForm(request.POST, instance=request.user)
+        #form_end = EnderecoCadastroForm(request.POST)
+        #if form.is_valid() and form_end.is_valid():
+        if form.is_valid():
+            try:
+                usr = form.save()
+                messages.success(request, 'Dados alterados.')
+                return render(request, 'tt/sucesso.html', {'mensagem':'Alteração Concluída'})
+
+            except ValidationError, e:
+                if e:
+                    [messages.error(request, msg) for msg in e.messages]
+    else:
+        form = UsuarioAlteracaoForm(instance=request.user)
+        #form_end = EnderecoCadastroForm(instance = request.user.enderecos)
+    return render(request, "tt/alteracao_usuario.html", {'form':form,})
 
 @login_required
 def mostrar_checkout(request):

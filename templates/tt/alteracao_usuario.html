@@ -1,0 +1,28 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Alteracao de Usuário - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Modificar conta</h1>
+
+<form method="post" action=".">{% csrf_token %}
+
+    <p class="texto_grande"><strong>Dados Pessoais:</strong></p>
+
+    <table>
+        {{ form }}
+    </table>
+
+    <p class="texto_grande"><strong>Endereço:</strong></p>
+
+    <table>
+        {{ form_end }}
+    </table>
+
+    <p class="submit">
+        <input type="submit" value="Salvar" />
+    </p>
+</form>
+
+{% endblock %}
