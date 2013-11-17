@@ -160,10 +160,10 @@
         <a href="/"><img src="{{  MEDIA_URL }}img/logo.png"/></a>
         <h3 class="muted">TicketTeco</h3>
 
-        <form class="form-search">
+        <form class="form-search" action="{% url 'busca' %}">
             <div class="input-append">
-                <input type="text" class="span2 search-query">
-                <button type="submit" class="btn">Search</button>
+                <input type="text" class="span2 search-query" name="chave">
+                <button type="submit" class="btn">Buscar</button>
             </div>
         </form>
 

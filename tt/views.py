@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 from decimal import Decimal
+from itertools import chain
+from operator import attrgetter
 import threading
 
 from django.contrib import messages
@@ -212,6 +214,13 @@ def mostrar_selecao_endereco(request):
         request.session['endereco_entrega_id'] = request.POST['endereco']
         return redirect('checkout')
     return render(request, 'tt/selecao_endereco.html', {'enderecos':enderecos,})
+
+def mostrar_busca(request):
+    chave = request.GET.get('chave', None)
+    categorias = Categoria.objects.filter(nome__icontains=chave)
+    eventos = Evento.objects.filter(nome__icontains=chave)
+    objetos = sorted(chain(categorias, eventos), key=attrgetter('nome'))
+    return render(request, 'tt/busca.html',{'objetos':objetos, 'chave':chave,})
 
 def mostrar_carrinho(request):
     if request.method == 'POST':

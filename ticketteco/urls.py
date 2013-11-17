@@ -28,6 +28,8 @@ urlpatterns = patterns('',
 
     url(r'^catalogo/(?P<evento_id>\d+)/$', mostrar_detalhe_evento, name='detalhe_evento'),
 
+    url(r'^busca/$', mostrar_busca, name='busca'),
+
     url(r'^categoria/(?P<slug>[\w-]+)/$', CategoriaListView.as_view(), name = 'detalhe_categoria'),
 
     url(r'^pedidos/$', mostrar_lista_pedidos, name='meus_pedidos'),
@@ -42,15 +44,6 @@ urlpatterns = patterns('',
 
     url(r'^checkout/$', mostrar_checkout, name='checkout'),
 
-
-    # Examples:
-    # url(r'^$', 'ticketteco.views.home', name='home'),
-    # url(r'^ticketteco/', include('ticketteco.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^relatorios/', include('reportengine.urls')),
     url(r'^admin/', include(admin.site.urls)),
 

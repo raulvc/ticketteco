@@ -1,0 +1,42 @@
+{% extends "tt/base.html" %}
+
+{% block title %}Resultados para '{{ chave }}' - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <hr>
+
+    <h1>Resultados da Busca:</h1>
+
+    <div class="row-fluid">
+
+        <ul class="thumbnails">
+
+            {% for obj in objetos %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="{{ obj.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ obj.foto }}" class="img-polaroid" alt=""></a>
+                        <div class="caption">
+                            <h4>{{ obj.nome }}</h4>
+
+                            <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary">Detalhes</a> </p>
+                        </div>
+                    </div>
+                </li>
+            {% empty %}
+                <div class="alert">
+                    <strong>Não foram encontradas ocorrências para '{{ chave }}'.</strong>
+                    <br>
+                </div>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <a class="btn " type="button" href="{% url 'catalogo' %}" >Continuar comprando</a>
+    <br><br>
+
+    <hr>
+
+{% endblock %}
