@@ -229,8 +229,8 @@ class Usuario(AbstractBaseUser):
     username = models.CharField(max_length=30, unique=True, verbose_name='usuario')
     email = models.EmailField(max_length=255, verbose_name='e-mail')
     data_nascimento = models.DateField(null=True, blank=True)
-    nome = models.CharField(max_length=255, null=True, blank=True)
-    cpf = models.CharField(max_length=11, null=True, blank=True)
+    nome = models.CharField(max_length=255)
+    cpf = models.CharField(max_length=11)
     telefone = models.CharField(max_length=30, null=True, blank=True)
 
     is_active = models.BooleanField(default=True, verbose_name='ativo?')

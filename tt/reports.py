@@ -12,9 +12,10 @@ class UsuarioReport(reportengine.ModelReport):
     namespace = "usuario"
     description = "Lista todos os usuários presentes no sistema"
 
-    labels = ('username','is_active','email','nome', 'data_nascimento')
+    labels = ('username','is_active','email','nome', 'cpf', 'telefone', 'data_nascimento')
     list_filter = ['is_active', DateTimeFilterControl('data_nascimento'),
-                 StartsWithFilterControl('username'), StartsWithFilterControl('email')]
+                 StartsWithFilterControl('username'), StartsWithFilterControl('email'),
+                 StartsWithFilterControl('cpf'), StartsWithFilterControl('nome')]
     date_field = 'data_nascimento' # Allows auto filtering by this date
     model = Usuario
     per_page = 100
@@ -52,7 +53,7 @@ class PedidoReport(reportengine.ModelReport):
     namespace = "pedido"
     description = "Listagem de pedidos"
 
-    labels = ('data_criado', 'user', 'status', 'endereco_entrega', 'metodo_envio', 'total')
+    labels = ('id', 'data_criado', 'user', 'status', 'endereco_entrega', 'metodo_envio', 'total')
     list_filter = [DateTimeFilterControl('data_criado'),
                    StartsWithFilterControl('user')]
     date_field = 'data_criado'

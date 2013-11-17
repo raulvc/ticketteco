@@ -59,7 +59,7 @@ class UsuarioAdmin(UserAdmin):
         request.GET = data
         return super(UsuarioAdmin, self).add_view(request, form_url="", extra_context=extra_context)
 
-    list_display = ('username', 'is_admin', 'is_active', 'email', 'data_nascimento',)
+    list_display = ('username', 'is_admin', 'is_active', 'email', 'nome', 'data_nascimento',)
     list_display_links = ('username', 'email')
     list_filter = ('email', 'username',)
 
@@ -72,7 +72,8 @@ class UsuarioAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'data_nascimento', 'password1', 'password2', 'is_admin')}
+            'fields': ('username', 'email', 'data_nascimento', 'telefone',
+                       'cpf', 'nome', 'password1', 'password2', 'is_admin')}
         ),
     )
 
