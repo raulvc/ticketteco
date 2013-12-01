@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.db.models import Count
+from django.forms.formsets import formset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 
@@ -17,7 +17,7 @@ from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroFor
 
 from tt.models import Evento, Endereco, Pedido, Item, Categoria
 
-# TODO: busca, alteracao cadastro, remover do carrinho
+# TODO: endereço
 
 # class-based views do django 1.5, não são fáceis de entender como o método tradicional mas ocupam menos linhas
 class Index(ListView):
@@ -115,11 +115,14 @@ def mostrar_cadastro(request):
 
     else:
         form = UsuarioCadastroForm()
-        form_end = EnderecoCadastroForm()
+
+        formset_end = formset_factory(EnderecoCadastroForm, extra=2)
+        #form_end = EnderecoCadastroForm()
+        
         if 'next' in request.GET and request.GET['next']:
             proximo = request.GET['next']
             request.session['next'] = proximo
-    return render(request, "tt/cadastro_usuario.html", {'form':form, 'form_end':form_end,})
+    return render(request, "tt/cadastro_usuario.html", {'form':form, 'formset_end':formset_end,})
 
 @login_required
 def mostrar_alteracao(request):
@@ -216,7 +219,7 @@ def mostrar_selecao_endereco(request):
     return render(request, 'tt/selecao_endereco.html', {'enderecos':enderecos,})
 
 def mostrar_busca(request):
-    chave = request.GET.get('chave', None)
+    chave = request.GET.get('chave', '')
     categorias = Categoria.objects.filter(nome__icontains=chave)
     eventos = Evento.objects.filter(nome__icontains=chave)
     objetos = sorted(chain(categorias, eventos), key=attrgetter('nome'))

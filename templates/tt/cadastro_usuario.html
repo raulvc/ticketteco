@@ -12,14 +12,17 @@
 
     <p class="texto_grande"><strong>Dados Pessoais:</strong></p>
 
-    <table>
+    <table class="table">
         {{ form }}
     </table>
 
     <p class="texto_grande"><strong>Endereço:</strong></p>
 
-    <table>
-        {{ form_end }}
+    <table class="table">
+        {% for form_end in formset_end %}
+            {{ form_end }}
+        {% endfor %}
+
     </table>
 
     <p class="submit">

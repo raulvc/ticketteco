@@ -4,28 +4,25 @@
 
 {% block content %}
 
-    <hr>
 
-    <h1>Próximos Eventos</h1>
+    <h5>Próximos Eventos</h5>
 
     <div class="row-fluid">
         <ul class="thumbnails">
-
             {% for p in proximos %}
                 <li class="span2">
                     <div class="thumbnail">
                         <a href="{{ p.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ p.thumb }}" class="img-polaroid" alt=""></a>
-                        <div class="caption">
-                            <h4>{{ p.nome }}</h4>
+                        <div class="text-center">
+                            <h6>{{ p.nome }}</h6>
                         </div>
                     </div>
                 </li>
             {% endfor %}
-
         </ul>
     </div>
 
-    <h1>Gênero</h1>
+    <h1>Catálogo</h1>
 
     <div class="row-fluid">
 
@@ -48,7 +45,7 @@
 
     </div>
 
-    <h1>Últimos Ingressos!</h1>
+    <h5>Últimos Ingressos!</h5>
 
     <div class="row-fluid">
 
@@ -58,8 +55,8 @@
                 <li class="span2">
                     <div class="thumbnail">
                         <a href="{{ u.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ u.thumb }}" class="img-polaroid" alt=""></a>
-                        <div class="caption">
-                            <h4>{{ u.nome }}</h4>
+                        <div class="text-center">
+                            <h6>{{ u.nome }}</h6>
                         </div>
                     </div>
                 </li>
@@ -68,7 +65,5 @@
         </ul>
 
     </div>
-
-    <hr>
 
 {% endblock %}

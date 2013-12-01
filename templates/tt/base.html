@@ -29,6 +29,7 @@
         .container {
             margin: 0 auto;
             max-width: 1000px;
+
         }
         .container > hr {
             margin: 15px 0;
@@ -97,9 +98,17 @@
         }
 
 
+        .thumbnail {
+            text-align:center;
+            background-color: #fff;
+
+
+
+        }
 
         .span4 {
             max-width: 300px;
+            text-align: center;
         }
 
         .logintable {
@@ -113,9 +122,15 @@
         }
 
         .footer {
-            background-color: #000;
-            height: 60px;
+            height: 20px;
             color: #aaa;
+        }
+
+        .registrado {
+            text-align: center;
+            width:100;
+            height: 7;
+            font-family: Gordon-regular;
         }
 
     </style>
@@ -138,6 +153,8 @@
 </head>
 
 <body>
+
+
 <div class="idusuario">
 
     {% if request.user.is_authenticated %}
@@ -150,31 +167,22 @@
         <a class="btn btn-primary" type="button" href="{% url 'meus_pedidos' %}">Meus Pedidos</a>
     {% endif %}
 
-
-
-
 </div>
+
 <div class="container">
 
     <div class="masthead">
+
         <a href="/"><img src="{{  MEDIA_URL }}img/logo.png"/></a>
         <h3 class="muted">TicketTeco</h3>
-
-        <form class="form-search" action="{% url 'busca' %}">
-            <div class="input-append">
-                <input type="text" class="span2 search-query" name="chave">
-                <button type="submit" class="btn">Buscar</button>
-            </div>
-        </form>
 
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <ul class="nav">
-                        <li ><a href="{% url 'index' %}">Home</a></li>
-                        <li ><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                        <li ><a href="{% url 'carrinho' %}">Carrinho</a></li>
-
+                        <li><a href="{% url 'index' %}"><i class="icon-home"></i> Home</a></li>
+                        <li><a href="{% url 'catalogo' %}"><i class="icon-list"></i> Catálogo</a></li>
+                        <li><a href="{% url 'carrinho' %}"><i class="icon-shopping-cart"></i> Carrinho</a></li>
 
                     </ul>
                 </div>
@@ -182,7 +190,12 @@
         </div><!-- /.navbar -->
     </div>
 
-
+    <form class="form-search" action="{% url 'busca' %}">
+        <div class="input-append">
+            <input type="text" class="span2 search-query" name="chave">
+            <button type="submit" class="btn"><i class="icon-search"></i></button>
+        </div>
+    </form>
 
 
     {% if messages %}
@@ -196,12 +209,12 @@
     {% block content %}
     {% endblock %}
 
-
-
-
+    <hr>
 
     <div class="footer">
-        <p>&copy; TICKETTECO 2013</p>
+        <div class="registrado">
+            <b><p>&copy; Ticket Teco 2013</p><b>
+        </div>
     </div>
 </div> <!-- /container -->
 
@@ -211,5 +224,6 @@
 <script src= "http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+
 </body>
 </html>

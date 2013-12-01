@@ -14,7 +14,7 @@
         <div class="carousel-inner">
 
             <div class="item active">
-                <img src="{{  STATIC_URL }}fundo_car.jpg"  >
+                <img src="{{ STATIC_URL }}img/fundo_car.jpg"  >
 
             </div>
             {% for object in object_list %}
@@ -47,7 +47,9 @@
 
                 <li class="span4">
                     <div class="thumbnail">
-                        <a href="{{ object.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ object.foto }}" class="img-polaroid" alt=""></a>
+                        <div class="img-destaque">
+                            <a href="{{ object.get_absolute_url }}"><img src="{{  MEDIA_URL }}{{ object.foto }}" class="img-polaroid" alt=""></a>
+                        </div>
                         <div class="caption">
                             <h3>{{ object.nome }}</h3>
                             <p>{{ object.descricao }}</p>
@@ -61,18 +63,6 @@
             {% endfor %}
 
         </ul>
-
-
     </div>
-
-
-
-
-
-    <hr>
-
-
-
-
 
 {% endblock %}
