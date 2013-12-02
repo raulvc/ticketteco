@@ -14,10 +14,19 @@
         {{ form }}
     </table>
 
-    <p class="texto_grande"><strong>Endereço:</strong></p>
+    <p class="texto_grande"><strong>Endereços Cadastrados:</strong></p>
 
-    <table>
-        {{ form_end }}
+    <table class="table">
+        {% for end in request.user.enderecos.values %}
+            <tr>
+            <th>Logradouro:</th> <td>{{ end.logradouro }}</td>
+            <th>Número:</th><td>{{ end.nro }}</td>
+            <th>Complemento:</th><td>{{ end.complemento }}</td>
+            <th>Cidade:</th><td>{{ end.cidade }}</td>
+            <th>Estado:</th><td>{{ end.estado }}</td>
+            <th>CEP:</th><td>{{ end.cep }}</td>
+            </tr>
+        {% endfor %}
     </table>
 
     <p class="submit">

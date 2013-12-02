@@ -11,145 +11,25 @@
 
     <!-- Le styles -->
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style>
-
-
-        body {
-            padding-top: 20px;
-            padding-bottom: 60px;
-
-
-
-            /* background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#bbb)) repeat-X; */
-
-
-        }
-
-        /* Custom container */
-        .container {
-            margin: 0 auto;
-            max-width: 1000px;
-
-        }
-        .container > hr {
-            margin: 15px 0;
-        }
-
-        /* Main marketing message and sign up button */
-        .jumbotron {
-            margin: 80px 0;
-            text-align: center;
-        }
-        .jumbotron h1 {
-            font-size: 100px;
-            line-height: 1;
-        }
-        .jumbotron .lead {
-            font-size: 24px;
-            line-height: 1.25;
-        }
-        .jumbotron .btn {
-            font-size: 21px;
-            padding: 14px 24px;
-        }
-
-        /* Supporting marketing content */
-        .marketing {
-            margin: 60px 0;
-        }
-        .marketing p + h4 {
-            margin-top: 28px;
-        }
-
-
-        /* Customize the navbar links to be fill the entire space of the .navbar */
-        .navbar .navbar-inner {
-            padding: 0;
-        }
-        .navbar .nav {
-            margin: 0;
-            display: table;
-            width: 100%;
-        }
-        .navbar .nav li {
-            display: table-cell;
-            width: 1%;
-            float: none;
-        }
-        .navbar .nav li a {
-            font-weight: bold;
-            text-align: center;
-            border-left: 1px solid rgba(255,255,255,.75);
-            border-right: 1px solid rgba(0,0,0,.1);
-        }
-        .navbar .nav li:first-child a {
-            border-left: 0;
-            border-radius: 3px 0 0 3px;
-        }
-        .navbar .nav li:last-child a {
-            border-right: 0;
-            border-radius: 0 3px 3px 0;
-        }
-
-        .idusuario {
-
-            padding-left: 880px;
-
-        }
-
-
-        .thumbnail {
-            text-align:center;
-            background-color: #fff;
-
-
-
-        }
-
-        .span4 {
-            max-width: 300px;
-            text-align: center;
-        }
-
-        .logintable {
-
-            padding-left:400px;
-        }
-
-        .form-search {
-
-            padding-left:750px;
-        }
-
-        .footer {
-            height: 20px;
-            color: #aaa;
-        }
-
-        .registrado {
-            text-align: center;
-            width:100;
-            height: 7;
-            font-family: Gordon-regular;
-        }
-
-    </style>
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/ticketteco.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="{{ STATIC_URL }}js/html5.js"></script>
     <![endif]-->
 
     {% block extrahead %}
     {% endblock %}
+
     <script type="text/javascript">
         $(function(){
             {% block jquery %}
             {% endblock %}
         });
     </script>
+
+
 </head>
 
 <body>
@@ -221,9 +101,14 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src= "http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src= "{{ STATIC_URL }}js/jquery-1.9.1.js"></script>
+<script src= "{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script src= "{{ STATIC_URL }}js/jquery.formset.min.js"></script>
 <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.js"></script>
 <script src= "{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
+
+{% block extrabody %}
+{% endblock %}
 
 </body>
 </html>

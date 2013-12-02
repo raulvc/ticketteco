@@ -2,45 +2,71 @@
 
 {% block title %}Cadastro de Usuário - {{ block.super }}{% endblock %}
 
+{% block extrabody %}
+
+    <script type="text/javascript">
+        $(function() {
+            $('#enderecos').formset({
+                addText: 'adicionar endereço',
+                deleteText: 'remover endereço',
+                min_num: 1
+{#                added: function(row){#}
+{#                    var minForms = 1;#}
+{#                    if ($('.dynamic-form').size() == minForms)#}
+{#                        $('.dynamic-form .delete-row').hide();#}
+{#                },#}
+{#                removed: function(row){#}
+{#                    var minForms = 1;#}
+{#                    if ($('.dynamic-form').size() > minForms)#}
+{#                        $('.dynamic-form .delete-row').show();#}
+{#                }#}
+
+            })});
+
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>Cadastrar conta</h1>
+    <h1>Cadastrar conta</h1>
 
-{% if not user.is_authenticated %}
+    {% if not user.is_authenticated %}
 
-<form method="post" action=".">{% csrf_token %}
+        <form method="post" action=".">{% csrf_token %}
 
-    <p class="texto_grande"><strong>Dados Pessoais:</strong></p>
+            <p class="texto_grande"><strong>Dados Pessoais:</strong></p>
 
-    <table class="table">
-        {{ form }}
-    </table>
+            <table class="table">
+                {{ form }}
+            </table>
 
-    <p class="texto_grande"><strong>Endereço:</strong></p>
+            <p class="texto_grande"><strong>Endereço:</strong></p>
 
-    <table class="table">
-        {% for form_end in formset_end %}
-            {{ form_end }}
-        {% endfor %}
 
-    </table>
+            <table id="enderecos" class="table dynamic-form form-container">
+                {{ formset_end }}
+            </table>
 
-    <p class="submit">
-        <input type="submit" value="Salvar" />
-        <input type="hidden" name="next" value="{{ next }}" />
-    </p>
-</form>
+            <br><br>
 
-<p class="register">
-    Já cadastrado? <a href="{% url 'login' %}">Faça o login</a>
-</p>
+            <p class="submit">
+                {{ formset_end.management_form }}
+                <input type="submit" value="Salvar" />
+                <input type="hidden" name="next" value="{{ next }}" />
+            </p>
+        </form>
 
-{% else %}
+        <p class="register">
+            Já cadastrado? <a href="{% url 'login' %}">Faça o login</a>
+        </p>
 
-<p class="register">
-    Você está logado. Para cadastrar uma nova conta, primeiro faça o <a href="{% url 'logout' %}">logout</a>
-</p>
+    {% else %}
 
-{% endif %}
+        <p class="register">
+            Você está logado. Para cadastrar uma nova conta, primeiro faça o <a href="{% url 'logout' %}">logout</a>
+        </p>
+
+    {% endif %}
 
 {% endblock %}

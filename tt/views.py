@@ -9,11 +9,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.forms.formsets import formset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 
-from tt.forms import EventoDetalheForm, UsuarioCadastroForm, EnderecoCadastroForm, UsuarioAlteracaoForm
+from tt.forms import EventoDetalheForm, UsuarioCadastroForm, UsuarioAlteracaoForm, EnderecoCadastroFormSet
 
 from tt.models import Evento, Endereco, Pedido, Item, Categoria
 
@@ -91,12 +90,13 @@ def mostrar_lista_pedidos(request):
 def mostrar_cadastro(request):
     if request.method == 'POST':
         form = UsuarioCadastroForm(request.POST)
-        form_end = EnderecoCadastroForm(request.POST)
-        if form.is_valid() and form_end.is_valid():
+        formset_end = EnderecoCadastroFormSet(request.POST)
+        if form.is_valid() and formset_end.is_valid():
             try:
                 novo_usuario = form.save()
-                novo_endereco = form_end.save(commit=False)
-                novo_usuario.enderecos.add(novo_endereco)
+                for form_end in formset_end.forms:
+                    end = form_end.save(commit=False)
+                    novo_usuario.enderecos.add(end)
                 novo_usuario.save()
                 messages.success(request, 'Usuário cadastrado.')
                 novo_usuario = authenticate(username=request.POST['username'],
@@ -112,13 +112,9 @@ def mostrar_cadastro(request):
             except ValidationError, e:
                 if e:
                     [messages.error(request, msg) for msg in e.messages]
-
     else:
         form = UsuarioCadastroForm()
-
-        formset_end = formset_factory(EnderecoCadastroForm, extra=2)
-        #form_end = EnderecoCadastroForm()
-        
+        formset_end = EnderecoCadastroFormSet()
         if 'next' in request.GET and request.GET['next']:
             proximo = request.GET['next']
             request.session['next'] = proximo
@@ -129,8 +125,7 @@ def mostrar_alteracao(request):
     if request.method == 'POST':
 
         form = UsuarioAlteracaoForm(request.POST, instance=request.user)
-        #form_end = EnderecoCadastroForm(request.POST)
-        #if form.is_valid() and form_end.is_valid():
+
         if form.is_valid():
             try:
                 usr = form.save()
@@ -142,7 +137,7 @@ def mostrar_alteracao(request):
                     [messages.error(request, msg) for msg in e.messages]
     else:
         form = UsuarioAlteracaoForm(instance=request.user)
-        #form_end = EnderecoCadastroForm(instance = request.user.enderecos)
+
     return render(request, "tt/alteracao_usuario.html", {'form':form,})
 
 @login_required

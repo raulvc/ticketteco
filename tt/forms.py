@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.forms.formsets import formset_factory
 from tt.models import Usuario, Endereco
 
 
@@ -78,3 +79,5 @@ class EnderecoCadastroForm(forms.ModelForm):
     class Meta:
         model = Endereco
         fields = ['logradouro', 'nro', 'complemento', 'cidade', 'estado', 'cep']
+
+EnderecoCadastroFormSet = formset_factory(EnderecoCadastroForm, extra=1, max_num=3)
